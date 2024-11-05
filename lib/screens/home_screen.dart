@@ -12,6 +12,16 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: Image.asset(
+            // AssetImage('assets/icons/Acknowledgements_Icon.png'),
+            'assets/icons/Chatbot_Icon.png',
+            // color: Colors.red,
+          ),
+          onPressed: () {
+            Scaffold.of(context).openDrawer();
+          },
+        ),
         title: const Text('Home Screen'),
       ),
       body: const Center(

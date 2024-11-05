@@ -42,27 +42,53 @@ class _MyHomePageState extends State<MyHomePage> {
 
       // BottomAppBar with navigation buttons
       bottomNavigationBar: BottomAppBar(
+        color: Colors.black87,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            IconButton(
-              icon: const Icon(Icons.analytics),
+            IconButton(                                       // IconButton for CreditsScreen
+              icon: Image.asset(
+                // AssetImage('assets/icons/Acknowledgements_Icon.png'),
+                'assets/icons/Acknowledgements_Icon.png',
+                // color: Colors.red,
+              ),
+              iconSize: 55,
               onPressed: () => _onItemTapped(0),
             ),
-            IconButton(
-              icon: const Icon(Icons.person),
+            IconButton(                                       // IconButton for ProfileScreen
+              icon: Image.asset(
+                // AssetImage('assets/icons/Profile_Icon.png'),
+                'assets/icons/Profile_Icon.png'
+                // color: Colors.red,
+              ),
+              iconSize: 55,
               onPressed: () => _onItemTapped(1),
             ),
-            IconButton(
-              icon: const Icon(Icons.home),
+            IconButton(                                       // IconButton for HomeScreen
+              icon: Image.asset(
+                // AssetImage('assets/icons/Home_Icon.png'),
+                'assets/icons/Home_Icon.png',
+                // color: Colors.red,
+              ),
+              iconSize: 55,
               onPressed: () => _onItemTapped(2),
             ),
-            IconButton(
-              icon: const Icon(Icons.notifications),
+            IconButton(                                        // IconButton for NotificationsScreen
+              icon: Image.asset(
+                // AssetImage('assets/icons/Notifications_Icon.png'),
+                'assets/icons/Notifications_Icon.png',
+                // color: Colors.red,
+              ),
+              iconSize: 55,
               onPressed: () => _onItemTapped(3),
             ),
-            IconButton(
-              icon: const Icon(Icons.settings),
+            IconButton(                                        //   IconButton for SettingsScreen
+              icon: Image.asset(
+                // AssetImage('assets/icons/Settings_Icon.png'),
+                'assets/icons/Settings_Icon.png',
+                // color: Colors.red,
+              ),
+              iconSize: 55,
               onPressed: () => _onItemTapped(4),
             ),
           ],
