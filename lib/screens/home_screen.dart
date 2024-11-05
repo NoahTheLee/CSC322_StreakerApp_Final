@@ -12,6 +12,16 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        actions: [
+          IconButton(onPressed: () {}, icon: const Icon(Icons.speaker)
+              //IconButton( //Alternate icon for using a custom image
+              // icon: Image.asset(
+              //   'assets/images/icon_image.png',
+              //   width: 24,
+              //   height: 24,
+              // ),
+              ),
+        ],
         title: const Text('Home Screen'),
       ),
       body: const Center(
