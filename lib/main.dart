@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:csc322_streaker_final/navigator.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {

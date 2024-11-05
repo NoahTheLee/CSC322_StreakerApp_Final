@@ -17,11 +17,11 @@ class _MyHomePageState extends State<MyHomePage> {
 
   //Simple list to hold the screens themselves
   final List<Widget> _screens = [
-    CreditsScreen(),
-    ProfileScreen(),
-    HomeScreen(),
-    NotificationsScreen(),
-    SettingsScreen(),
+    const CreditsScreen(),
+    const ProfileScreen(),
+    const HomeScreen(),
+    const NotificationsScreen(),
+    const SettingsScreen(),
   ];
 
   //Function to change the selected index
