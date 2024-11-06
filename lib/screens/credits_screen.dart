@@ -4,16 +4,17 @@ class CreditsScreen extends StatefulWidget {
   const CreditsScreen({super.key});
 
   @override
-  _CreditsScreenState createState() => _CreditsScreenState();
+  CreditsScreenState createState() => CreditsScreenState();
 }
 
-class _CreditsScreenState extends State<CreditsScreen> {
+class CreditsScreenState extends State<CreditsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
-        title: const Text('Credits Screen', style: TextStyle(color: Colors.white)),
+        title:
+            const Text('Credits Screen', style: TextStyle(color: Colors.white)),
       ),
       body: const Center(
         child: Text(

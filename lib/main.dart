@@ -31,7 +31,7 @@ class _MyAppState extends State<MyApp> {
         scaffoldBackgroundColor: Colors.black,
         primarySwatch: Colors.blue,
       ),
-      home: isLoggedIn ? HomePage() : LoginPage(doLogin: doLogin),
+      home: isLoggedIn ? const HomePage() : LoginPage(doLogin: doLogin),
     );
   }
 }

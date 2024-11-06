@@ -31,7 +31,8 @@ class _LoginPageState extends State<LoginPage> {
     //Later, this should check firebase for login status
     _email = _emailController.text;
     _password = _passwordController.text;
-    print('Email: $_email, Password: $_password');
+    print(
+        'DEBUG DEBUG DEBUG ||| Email: $_email, Password: $_password ||| DEBUG DEBUG DEBUG');
     widget.doLogin();
   }
 
