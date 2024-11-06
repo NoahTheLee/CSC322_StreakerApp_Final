@@ -11,11 +11,11 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
+  //Color of menu, easy to change for theming
   final Color menuStyle = Colors.white;
   //Controllers for getting email and password data
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  //focus nodes for email and password fields
 
   //empty variables for email and password
   String _email = '';
