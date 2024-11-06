@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key});
+  const HomeScreen({super.key});
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -12,27 +12,11 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          icon: Image.asset(
-            // AssetImage('assets/icons/Acknowledgements_Icon.png'),
-            'assets/icons/Chatbot_Icon.png',
-            // color: Colors.red,
-          ),
-          onPressed: () {
-            Scaffold.of(context).openDrawer();
-          },
-        ),
-        actions: [
-          IconButton(onPressed: () {}, icon: const Icon(Icons.speaker)
-              //IconButton( //Alternate icon for using a custom image
-              // icon: Image.asset(
-              //   'assets/images/icon_image.png',
-              //   width: 24,
-              //   height: 24,
-              // ),
-              ),
-        ],
         title: const Text('Home Screen'),
+        leading: IconButton(
+          icon: Image.asset('assets/icons/Chatbot_Icon.png'),
+          onPressed: () => Scaffold.of(context).openDrawer(),
+        ),
       ),
       body: const Center(
         child: Text(

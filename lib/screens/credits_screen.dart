@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class CreditsScreen extends StatefulWidget {
-  const CreditsScreen({Key? key});
+  const CreditsScreen({super.key});
 
   @override
   _CreditsScreenState createState() => _CreditsScreenState();
