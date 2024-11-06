@@ -12,12 +12,13 @@ class _CreditsScreenState extends State<CreditsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Credits Screen'),
+        backgroundColor: Colors.black,
+        title: const Text('Credits Screen', style: TextStyle(color: Colors.white)),
       ),
       body: const Center(
         child: Text(
           'This is the content of the screen.',
-          style: TextStyle(fontSize: 18),
+          style: TextStyle(fontSize: 18, color: Colors.white),
         ),
       ),
     );

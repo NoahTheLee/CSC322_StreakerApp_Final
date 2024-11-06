@@ -61,21 +61,22 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     # Default Items 
-    - assets\defaults\Default_Banner.png
-    - assets\defaults\Default_Profile_Picture.png
+    - assets/defaults/Default_Banner.png
+    - assets/defaults/Default_Profile_Picture.png
     # Icons
-    - assets\icons\Acknowledgements_Icon.png
-    - assets\icons\Acknowledgements_Icon.png
-    - assets\icons\Home_Icon.png
-    - assets\icons\Notifications_Icon.png
-    - assets\icons\Profile_Icon.png
-    - assets\icons\Settings_Icon.png
+    - assets/icons/Acknowledgements_Icon.png
+    - assets\icons\Chatbot_Icon.png
+    - assets/icons/Home_Icon.png
+    - assets/icons/Notifications_Icon.png
+    - assets/icons/Profile_Icon.png
+    - assets/icons/Settings_Icon.png
     # Rocket Parts
-    - assets\rocket_parts\Built_Rocket.png
-    - assets\rocket_parts\Rocket_Body.png
-    - assets\rocket_parts\Rocket_Thrusters.png
+    - assets/rocket_parts/Built_Rocket.png
+    - assets/rocket_parts/Rocket_Body.png
+    - assets/rocket_parts/Rocket_Thrusters.png
     # titles
-    - assets\titles\Logo.png
+    - assets/titles/Logo.png
+    - assets/titles/Title.png
 
 
   # An image asset can refer to one or more resolution-specific "variants", see

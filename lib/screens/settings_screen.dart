@@ -12,12 +12,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Settings Screen'),
+        backgroundColor: Colors.black,
+        title: const Text('Settings Screen', style: TextStyle(color: Colors.white)),
       ),
       body: const Center(
         child: Text(
           'This is the content of the screen.',
-          style: TextStyle(fontSize: 18),
+          style: TextStyle(fontSize: 18, color: Colors.white),
         ),
       ),
     );
