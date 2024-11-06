@@ -13,10 +13,12 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Home Screen'),
+        // !!!TODO: OMG THIS IS SO BROKEN PLEASE FIX THIS!!!!
         leading: IconButton(
           icon: Image.asset('assets/icons/Chatbot_Icon.png'),
           onPressed: () => Scaffold.of(context).openDrawer(),
         ),
+        // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
       ),
       body: const Center(
         child: Text(
