@@ -5,14 +5,14 @@ import 'package:csc322_streaker_final/screens/profile_screen.dart';
 import 'package:csc322_streaker_final/screens/settings_screen.dart';
 import 'package:flutter/material.dart';
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key});
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _HomePageState createState() => _HomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _HomePageState extends State<HomePage> {
   int _selectedIndex = 2; //Default to HomeScreen
 
   //Simple list to hold the screens themselves
@@ -46,7 +46,8 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            IconButton(                                       // IconButton for CreditsScreen
+            IconButton(
+              // IconButton for CreditsScreen
               icon: Image.asset(
                 // AssetImage('assets/icons/Acknowledgements_Icon.png'),
                 'assets/icons/Acknowledgements_Icon.png',
@@ -55,16 +56,18 @@ class _MyHomePageState extends State<MyHomePage> {
               iconSize: 55,
               onPressed: () => _onItemTapped(0),
             ),
-            IconButton(                                       // IconButton for ProfileScreen
+            IconButton(
+              // IconButton for ProfileScreen
               icon: Image.asset(
-                // AssetImage('assets/icons/Profile_Icon.png'),
-                'assets/icons/Profile_Icon.png'
-                // color: Colors.red,
-              ),
+                  // AssetImage('assets/icons/Profile_Icon.png'),
+                  'assets/icons/Profile_Icon.png'
+                  // color: Colors.red,
+                  ),
               iconSize: 55,
               onPressed: () => _onItemTapped(1),
             ),
-            IconButton(                                       // IconButton for HomeScreen
+            IconButton(
+              // IconButton for HomeScreen
               icon: Image.asset(
                 // AssetImage('assets/icons/Home_Icon.png'),
                 'assets/icons/Home_Icon.png',
@@ -73,7 +76,8 @@ class _MyHomePageState extends State<MyHomePage> {
               iconSize: 55,
               onPressed: () => _onItemTapped(2),
             ),
-            IconButton(                                        // IconButton for NotificationsScreen
+            IconButton(
+              // IconButton for NotificationsScreen
               icon: Image.asset(
                 // AssetImage('assets/icons/Notifications_Icon.png'),
                 'assets/icons/Notifications_Icon.png',
@@ -82,7 +86,8 @@ class _MyHomePageState extends State<MyHomePage> {
               iconSize: 55,
               onPressed: () => _onItemTapped(3),
             ),
-            IconButton(                                        //   IconButton for SettingsScreen
+            IconButton(
+              //   IconButton for SettingsScreen
               icon: Image.asset(
                 // AssetImage('assets/icons/Settings_Icon.png'),
                 'assets/icons/Settings_Icon.png',
