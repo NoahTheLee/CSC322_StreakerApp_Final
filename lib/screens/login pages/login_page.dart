@@ -1,4 +1,5 @@
 import 'package:csc322_streaker_final/screens/login%20pages/sign_in.dart';
+import 'package:csc322_streaker_final/screens/login%20pages/sign_up.dart';
 import 'package:flutter/material.dart';
 
 class LoginPage extends StatefulWidget {
@@ -16,10 +17,13 @@ class _LoginPageState extends State<LoginPage> {
   //Controllers for getting email and password data
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _passwordMatchingController =
+      TextEditingController();
 
   //empty variables for email and password
   String _email = '';
   String _password = '';
+  bool _signUp = false;
 
   @override
   void initState() {
@@ -36,11 +40,18 @@ class _LoginPageState extends State<LoginPage> {
     widget.doLogin();
   }
 
+  void _switchSigning() {
+    setState(() {
+      _signUp = !_signUp;
+    });
+  }
+
   @override
   void dispose() {
     //Get rid of controllers and nodes when they're not used any more
     _emailController.dispose();
     _passwordController.dispose();
+    _passwordMatchingController.dispose();
     super.dispose();
   }
 
@@ -54,8 +65,22 @@ class _LoginPageState extends State<LoginPage> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: signIn(
-            menuStyle, _emailController, _passwordController, _checkLogin),
+        child: _signUp
+            ? signIn(
+                menuStyle,
+                _emailController,
+                _passwordController,
+                _checkLogin,
+                _switchSigning,
+              )
+            : signUp(
+                menuStyle,
+                _emailController,
+                _passwordController,
+                _passwordMatchingController,
+                _checkLogin,
+                _switchSigning,
+              ),
       ),
     );
   }

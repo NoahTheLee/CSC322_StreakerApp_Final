@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 
-Widget signIn(Color menuStyle, TextEditingController emailController,
-    TextEditingController passwordController, void Function() checkLogin) {
+Widget signIn(
+    Color menuStyle,
+    TextEditingController emailController,
+    TextEditingController passwordController,
+    void Function() checkLogin,
+    void Function() switchToSignUp) {
   return Column(
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
@@ -39,6 +43,10 @@ Widget signIn(Color menuStyle, TextEditingController emailController,
       ElevatedButton(
         onPressed: checkLogin,
         child: const Text('Log In'),
+      ),
+      TextButton(
+        onPressed: switchToSignUp,
+        child: const Text('Don\'t have an account? Create one!'),
       ),
     ],
   );
