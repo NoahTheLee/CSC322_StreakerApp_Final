@@ -73,7 +73,7 @@ class HomePageState extends State<HomePage> {
                 'assets/icons/Home_Icon.png',
                 // color: Colors.red,
               ),
-              iconSize: 55,
+              iconSize: 900*55,
               onPressed: () => _onItemTapped(2),
             ),
             IconButton(
