@@ -64,6 +64,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ////////////////////////////////////////////////////////////////////////////////
               ],
             ),
+            //////////////////////////////Items to Track Title//////////////////////////////////
             const SizedBox(height: 20),
             const Text(
               'Your Items to Track',
@@ -74,6 +75,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 fontFamily: 'Arial Black',
               ),
             ),
+            ////////////////////////////////////////////////////////////////////////////////////
+            //////////////////////////////Items to Track List///////////////////////////////////
             SizedBox(
               height: MediaQuery.sizeOf(context).height / 2 - 100,
               width: MediaQuery.sizeOf(context).width - 20,
@@ -92,6 +95,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
               ),
             ),
+            ////////////////////////////////////////////////////////////////////////////////////
+            //////////////////////////////Add New Item//////////////////////////////////////////
             const SizedBox(height: 10),
             TextField(
               decoration: InputDecoration(
@@ -105,6 +110,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
               ),
             ),
+            /////////////////////////////////////////////////////////////////////////////////////
           ],
         ),
       ),
