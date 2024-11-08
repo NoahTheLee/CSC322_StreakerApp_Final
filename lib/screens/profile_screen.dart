@@ -12,6 +12,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
   final String _profile = 'assets/defaults/Default_Profile_Picture.png';
   final String _username = 'Username'; //Temporary Username
 
+  final String _banner = 'assets/defaults/Default_Banner.png';
+  final String _profile = 'assets/defaults/Default_Profile_Picture.png';
+  final String _username = 'Username'; //Temporary Username
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
