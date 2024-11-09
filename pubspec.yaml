@@ -1,5 +1,5 @@
 name: csc322_streaker_final
-description: "A new Flutter project."
+description: "This is a streak tracking app made using flutter."
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
@@ -36,6 +36,7 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
   http: ^1.2.2
+  flutter_launcher_icons: ^0.14.1
 
 dev_dependencies:
   flutter_test:
@@ -78,6 +79,14 @@ flutter:
     # titles
     - assets/titles/Logo.png
     - assets/titles/Title.png
+    #Icon
+    - assets/Icon/Streaker_app_icon.png
+
+flutter_launcher_icons:
+  image_path: "assets/Icon/Streaker_app_icon.png"
+  android: true
+  ios: true
+  adaptive_icon_background: "#FF0000"
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
