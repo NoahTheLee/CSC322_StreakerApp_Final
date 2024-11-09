@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 Widget signUp(
   Color menuStyle,
+  TextEditingController usernameController,
   TextEditingController emailController,
   TextEditingController passwordController,
   TextEditingController passwordMatchingController,
@@ -11,6 +12,21 @@ Widget signUp(
   return Column(
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
+      TextField(
+        controller: usernameController,
+        decoration: InputDecoration(
+          labelText: 'Username',
+          labelStyle: TextStyle(color: menuStyle),
+          enabledBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: menuStyle),
+          ),
+          focusedBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: menuStyle),
+          ),
+        ),
+        style: TextStyle(color: menuStyle),
+      ),
+      const SizedBox(height: 16.0),
       TextField(
         controller: emailController,
         decoration: InputDecoration(

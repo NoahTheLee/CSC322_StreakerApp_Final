@@ -1,3 +1,4 @@
+import 'package:csc322_streaker_final/Testing/testing_screen.dart';
 import 'package:csc322_streaker_final/screens/login pages/login_page.dart';
 import 'package:flutter/material.dart';
 
@@ -17,6 +18,8 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   bool isLoggedIn = false;
 
+  bool testingEnabled = false; //TODO: Remove this when testing is complete
+
   doLogin() {
     setState(() {
       isLoggedIn = true;
@@ -31,7 +34,11 @@ class _MyAppState extends State<MyApp> {
         scaffoldBackgroundColor: Colors.black,
         primarySwatch: Colors.blue,
       ),
-      home: isLoggedIn ? const HomePage() : LoginPage(doLogin: doLogin),
+      home: testingEnabled
+          ? TestingScreen() //TODO: Remove this when testing is complete
+          : isLoggedIn
+              ? const HomePage()
+              : LoginPage(doLogin: doLogin),
     );
   }
 }
