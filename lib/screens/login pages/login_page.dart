@@ -25,7 +25,7 @@ class LoginPageState extends State<LoginPage> {
       TextEditingController();
 
   //empty variables for email and password
-  bool _signUp = false;
+  bool _signUp = true;
 
   //Empty lists to store data from Firebase
   final List<String> keys = [];
