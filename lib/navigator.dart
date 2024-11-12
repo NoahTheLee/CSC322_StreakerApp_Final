@@ -6,7 +6,9 @@ import 'package:csc322_streaker_final/screens/settings_screen.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  const HomePage({super.key, required this.uid});
+
+  final String uid;
 
   @override
   HomePageState createState() => HomePageState();
@@ -16,13 +18,19 @@ class HomePageState extends State<HomePage> {
   int _selectedIndex = 2; //Default to HomeScreen
 
   //Simple list to hold the screens themselves
-  final List<Widget> _screens = [
-    const CreditsScreen(),
-    const ProfileScreen(),
-    const HomeScreen(),
-    const NotificationsScreen(),
-    const SettingsScreen(),
-  ];
+  late List<Widget> _screens;
+
+  @override
+  void initState() {
+    super.initState();
+    _screens = [
+      const CreditsScreen(),
+      ProfileScreen(uid: widget.uid),
+      HomeScreen(uid: widget.uid),
+      const NotificationsScreen(),
+      const SettingsScreen(),
+    ];
+  }
 
   //Function to change the selected index
   void _onItemTapped(int index) {
@@ -73,7 +81,7 @@ class HomePageState extends State<HomePage> {
                 'assets/icons/Home_Icon.png',
                 // color: Colors.red,
               ),
-              iconSize: 900*55,
+              iconSize: 900 * 55,
               onPressed: () => _onItemTapped(2),
             ),
             IconButton(

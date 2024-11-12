@@ -1,3 +1,4 @@
+import 'package:csc322_streaker_final/firebase%20stuff/firebase_handler.dart';
 import 'package:flutter/material.dart';
 
 import 'package:http/http.dart' as http;
@@ -6,6 +7,8 @@ import 'dart:convert';
 
 class TestingScreen extends StatefulWidget {
   const TestingScreen({super.key});
+
+  final String uid = '-OBEdvzL_pyEWsEPQP_w';
 
   @override
   _TestingScreenState createState() => _TestingScreenState();
@@ -17,26 +20,10 @@ class _TestingScreenState extends State<TestingScreen> {
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController usernameController = TextEditingController();
 
-  //Empty lists to store data from Firebase
-  final List<String> keys = [];
-  final List<String> emails = [];
-  final List<String> passwords = [];
-  final List<String> usernames = [];
-  //fullResponse initialized as empty, but will store raw data from Firebase
-  late http.Response fullResponse;
-  //responseData initialized as empty, will store decoded data from Firebase
-  late Map<String, dynamic> responseData = {};
-  //NOTE: The inner map will PROBABLY stay as Dynamic since this might also store images???
-
   //Empty strings to store data
   var email = '';
   var password = '';
   var username = '';
-
-  //Firebase URL
-  //Formatted as Uri.https('link', 'path.json')
-  final Uri firebaseUrl = Uri.https(
-      'csc322-streaker-final-default-rtdb.firebaseio.com', 'Users.json');
 
   @override
   void dispose() {
@@ -54,39 +41,8 @@ class _TestingScreenState extends State<TestingScreen> {
     username = usernameController.text;
   }
 
-  //Function to update response
-  //This needs to be future, since it's an async function... Neat
-  Future<void> updateResponse() async {
-    //Pulling data with GET
-    //Formatted as http.get(url)
-    fullResponse = await http.get(firebaseUrl); //pulls data from Firebase
-    //fullResponse should NEVER be used for anything at all ever since it's "junk" data
-
-    responseData = json
-        .decode(fullResponse.body); //Converts data into a KVP of KVPs (bruh)
-
-    for (final item in responseData.entries) {
-      keys.add(item.key);
-      emails.add(item.value['email']);
-      passwords.add(item.value['password']);
-      usernames.add(item.value['username']);
-    }
-  }
-
-  //Super simple function to return a boolean if login is successful
-  Future<bool> checkLogin(String email, String password) async {
-    await updateResponse();
-
-    //Even if not null, might not be in database
-
-    if (!(email.isEmpty || password.isEmpty || !emails.contains(email)) &&
-        passwords[emails.indexOf(email)] == password) {
-      print('Yay you can log in');
-      return true;
-    } else {
-      print('Nope, you can\'t log in');
-      return false;
-    }
+  void getuid() {
+    print(keys[emails.indexOf(email)]);
   }
 
   @override
@@ -180,9 +136,17 @@ class _TestingScreenState extends State<TestingScreen> {
                 print(await checkLogin(email, password)
                     ? 'Login successful'
                     : 'Login failed');
+                getuid();
               },
               child: const Text('Check Data'),
             ),
+            TextButton(
+                onPressed: () async {
+                  await updateResponse();
+                  print(widget.uid);
+                  print(usernames[keys.indexOf(widget.uid)]);
+                },
+                child: const Text('Print Data')),
           ],
         ),
       ),
