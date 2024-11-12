@@ -1,7 +1,10 @@
+import 'package:csc322_streaker_final/firebase%20stuff/firebase_handler.dart';
 import 'package:flutter/material.dart';
 
 class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({super.key});
+  const ProfileScreen({super.key, required this.uid});
+
+  final String uid;
 
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
@@ -10,7 +13,13 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   final String _banner = 'assets/defaults/Default_Banner.png';
   final String _profile = 'assets/defaults/Default_Profile_Picture.png';
-  final String _username = 'Username'; //Temporary Username
+  String _username = ''; //Temporary Username
+
+  @override
+  void initState() {
+    super.initState();
+    _username = usernames[keys.indexOf(widget.uid)];
+  }
 
   @override
   Widget build(BuildContext context) {
