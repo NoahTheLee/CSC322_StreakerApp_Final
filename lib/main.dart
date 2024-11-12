@@ -26,6 +26,14 @@ class _MyAppState extends State<MyApp> {
     });
   }
 
+  var uid = '';
+
+  updUid(String newUid) {
+    setState(() {
+      uid = newUid;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -35,10 +43,10 @@ class _MyAppState extends State<MyApp> {
         primarySwatch: Colors.blue,
       ),
       home: testingEnabled
-          ? TestingScreen() //TODO: Remove this when testing is complete
+          ? const TestingScreen() //TODO: Remove this when testing is complete
           : isLoggedIn
-              ? const HomePage()
-              : LoginPage(doLogin: doLogin),
+              ? HomePage(uid: uid)
+              : LoginPage(doLogin: doLogin, changeUid: updUid),
     );
   }
 }

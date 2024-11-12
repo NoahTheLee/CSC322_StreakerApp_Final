@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  const HomeScreen({super.key, required this.uid});
+
+  final String uid;
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -80,6 +82,11 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               child: const Text('Complete Tasks'),
             ),
+            ElevatedButton(
+                onPressed: () {
+                  print(widget.uid);
+                },
+                child: const Text('Print UID'))
           ],
         ),
       ),
