@@ -1,3 +1,4 @@
+import 'package:csc322_streaker_final/Testing/debug_file.dart';
 import 'package:flutter/material.dart';
 
 Widget signIn(
@@ -5,7 +6,8 @@ Widget signIn(
     TextEditingController emailController,
     TextEditingController passwordController,
     void Function() checkLogin,
-    void Function() switchToSignUp) {
+    void Function() switchToSignUp,
+    void Function() forceLogin) {
   return Column(
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
@@ -48,6 +50,7 @@ Widget signIn(
         onPressed: switchToSignUp,
         child: const Text('Don\'t have an account? Create one!'),
       ),
+      debugLogin(forceLogin),
     ],
   );
 }

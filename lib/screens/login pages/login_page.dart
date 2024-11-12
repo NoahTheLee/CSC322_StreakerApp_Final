@@ -62,6 +62,13 @@ class LoginPageState extends State<LoginPage> {
     username = _usernameController.text;
   }
 
+  void forceLogin() {
+    print('Forcing login...'); //TODO: remove this
+    email = "test@domain.gov";
+    password = "Testing123";
+    widget.doLogin();
+  }
+
   Future<bool> checkLogin(String email, String password) async {
     await updateResponse();
 
@@ -242,6 +249,7 @@ class LoginPageState extends State<LoginPage> {
                 _passwordController,
                 signUserIn,
                 _switchSigning,
+                forceLogin,
               )
             : signUp(
                 menuStyle,
