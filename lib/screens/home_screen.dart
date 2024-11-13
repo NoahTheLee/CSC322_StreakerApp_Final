@@ -1,3 +1,4 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -15,7 +16,7 @@ class _HomeScreenState extends State<HomeScreen> {
   bool checkedValue2 = false;
 
   Color _colorButton() {
-    if(checkedValue && checkedValue2) {
+    if (checkedValue && checkedValue2) {
       return const Color.fromARGB(255, 211, 47, 47);
     } else {
       return Colors.grey;
@@ -80,13 +81,17 @@ class _HomeScreenState extends State<HomeScreen> {
                   checkedValue = newValue!;
                 });
               },
-              title: const Text(
-                'Task 1',
+              title: const AutoSizeText(
+                'Task',
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: 20,
                   fontWeight: FontWeight.bold,
                 ),
+                minFontSize: 10,
+                maxFontSize: 20,
+                softWrap: true,
+                maxLines: 4,
+                
               ),
             ),
             CheckboxListTile(
@@ -99,13 +104,16 @@ class _HomeScreenState extends State<HomeScreen> {
                   checkedValue2 = newValue!;
                 });
               },
-              title: const Text(
-                'Task But It Is A Really Long Task Name so that I can test how It reacts to a long task name',
+              title: const AutoSizeText(
+                'Task But It has a really long name that will not fit in the box But I guess I can see how far I can Go so I will keep Typing stuff until it seems way too long and funny to look at becasue it is so long in comparesion to everything else XD',
                 style: TextStyle(
                   color: Colors.white,
-                  fontSize: 20 - 5,
                   fontWeight: FontWeight.bold,
                 ),
+                minFontSize: 10,
+                maxFontSize: 20,
+                softWrap: true,
+                maxLines: 4,
               ),
             ),
             const SizedBox(height: 20),
