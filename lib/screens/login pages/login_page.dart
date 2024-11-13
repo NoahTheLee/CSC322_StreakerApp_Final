@@ -80,6 +80,24 @@ class LoginPageState extends State<LoginPage> {
     //Later, this should check firebase for login status
     setValues();
 
+    if (email.isEmpty) {
+      print('handle empty email'); //TODO: handle empty email
+      signingDataError('Email is required.');
+      return;
+    }
+    final RegExp emailRegex =
+        RegExp(r'^[\w\.-]+@[\w\.-]+\.\w+$'); //figured out how to regex, yay
+    if (!emailRegex.hasMatch(email)) {
+      print('handle invalid email'); //TODO: handle invalid email
+      signingDataError('Email not valid.');
+      return;
+    }
+    if (password.isEmpty) {
+      print('handle empty password'); //TODO: handle empty password
+      signingDataError('Password is required.');
+      return;
+    }
+
     if (await checkLogin(email, password)) {
       _changeUid(email);
       widget
@@ -111,7 +129,6 @@ class LoginPageState extends State<LoginPage> {
     await updateResponse();
     //TODO: Handle backend response if no response is received
     setValues();
-    //Testing data for now
 
     print(
         'Username: $username, Email: $email, Password: $password, Checked password: $checkPassword'); //TODO: remove this
