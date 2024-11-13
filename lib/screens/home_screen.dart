@@ -11,6 +11,16 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  bool checkedValue = false;
+  bool checkedValue2 = false;
+
+  Color _colorButton() {
+    if(checkedValue && checkedValue2) {
+      return const Color.fromARGB(255, 211, 47, 47);
+    } else {
+      return Colors.grey;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,18 +70,49 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             const SizedBox(height: 20),
-            const Text(
-              'This is the content of the screen.',
-              style: TextStyle(
-                fontSize: 18,
-                color: Colors.white,
+            CheckboxListTile(
+              controlAffinity: ListTileControlAffinity.leading,
+              contentPadding: const EdgeInsets.only(left: 100, right: 100),
+              checkColor: Colors.white,
+              value: checkedValue,
+              onChanged: (newValue) {
+                setState(() {
+                  checkedValue = newValue!;
+                });
+              },
+              title: const Text(
+                'Task 1',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            CheckboxListTile(
+              controlAffinity: ListTileControlAffinity.leading,
+              contentPadding: const EdgeInsets.only(left: 100, right: 100),
+              checkColor: Colors.white,
+              value: checkedValue2,
+              onChanged: (newValue) {
+                setState(() {
+                  checkedValue2 = newValue!;
+                });
+              },
+              title: const Text(
+                'Task But It Is A Really Long Task Name so that I can test how It reacts to a long task name',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20 - 5,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {},
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.red,
+                backgroundColor: _colorButton(),
                 foregroundColor: const Color.fromARGB(255, 43, 30, 30),
                 padding:
                     const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
