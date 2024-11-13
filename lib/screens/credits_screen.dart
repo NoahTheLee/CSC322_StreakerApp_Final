@@ -110,7 +110,7 @@ class CreditsScreenState extends State<CreditsScreen> {
               ),
             ),
             Text(
-              '> And Users Like You <\n',
+              '> And Users Like You <',
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 20,
