@@ -7,7 +7,9 @@ Widget signIn(
     TextEditingController passwordController,
     void Function() checkLogin,
     void Function() switchToSignUp,
-    void Function() forceLogin) {
+    void Function() forceLogin,
+    void Function() togglePasswordVisibility,
+    bool passwordVisible) {
   return Column(
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
@@ -37,9 +39,16 @@ Widget signIn(
           focusedBorder: UnderlineInputBorder(
             borderSide: BorderSide(color: menuStyle),
           ),
+          suffixIcon: IconButton(
+            icon: Icon(
+              passwordVisible ? Icons.visibility_off : Icons.visibility,
+              color: menuStyle,
+            ),
+            onPressed: togglePasswordVisibility,
+          ),
         ),
         style: TextStyle(color: menuStyle),
-        obscureText: true,
+        obscureText: passwordVisible,
       ),
       const SizedBox(height: 16.0),
       ElevatedButton(

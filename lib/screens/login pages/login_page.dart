@@ -39,6 +39,7 @@ class LoginPageState extends State<LoginPage> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _passwordMatchingController =
       TextEditingController();
+  bool _passwordVisible = true;
 
   //empty variables for email and password
   bool _signUp = true;
@@ -223,6 +224,12 @@ class LoginPageState extends State<LoginPage> {
     super.dispose();
   }
 
+  void togglePasswordVisibility() {
+    setState(() {
+      _passwordVisible = !_passwordVisible;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     // final activeFilters = ref.watch(uidProvider);
@@ -241,6 +248,8 @@ class LoginPageState extends State<LoginPage> {
                 signUserIn,
                 _switchSigning,
                 forceLogin,
+                togglePasswordVisibility,
+                _passwordVisible,
               )
             : signUp(
                 menuStyle,
@@ -250,6 +259,8 @@ class LoginPageState extends State<LoginPage> {
                 _passwordMatchingController,
                 _createUser,
                 _switchSigning,
+                togglePasswordVisibility,
+                _passwordVisible,
               ),
       ),
     );

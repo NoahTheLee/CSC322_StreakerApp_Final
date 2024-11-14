@@ -8,6 +8,8 @@ Widget signUp(
   TextEditingController passwordMatchingController,
   void Function() checkLogin,
   void Function() switchToSignIn,
+  void Function() togglePasswordVisibility,
+  bool passwordVisible,
 ) {
   return Column(
     mainAxisAlignment: MainAxisAlignment.center,
@@ -53,9 +55,16 @@ Widget signUp(
           focusedBorder: UnderlineInputBorder(
             borderSide: BorderSide(color: menuStyle),
           ),
+          suffixIcon: IconButton(
+            icon: Icon(
+              passwordVisible ? Icons.visibility_off : Icons.visibility,
+              color: menuStyle,
+            ),
+            onPressed: togglePasswordVisibility,
+          ),
         ),
         style: TextStyle(color: menuStyle),
-        obscureText: true,
+        obscureText: passwordVisible,
       ),
       const SizedBox(height: 16.0),
       TextField(
@@ -71,7 +80,7 @@ Widget signUp(
           ),
         ),
         style: TextStyle(color: menuStyle),
-        obscureText: true,
+        obscureText: passwordVisible,
       ),
       const SizedBox(height: 16.0),
       ElevatedButton(
