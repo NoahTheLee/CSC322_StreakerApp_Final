@@ -7,10 +7,10 @@ class ProfileScreen extends StatefulWidget {
   final String uid;
 
   @override
-  _ProfileScreenState createState() => _ProfileScreenState();
+  ProfileScreenState createState() => ProfileScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
+class ProfileScreenState extends State<ProfileScreen> {
   final String _banner = 'assets/defaults/Default_Banner.png';
   final String _profile = 'assets/defaults/Default_Profile_Picture.png';
   String _username = ''; //Temporary Username

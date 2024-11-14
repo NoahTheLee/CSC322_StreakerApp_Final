@@ -9,7 +9,7 @@ final List<String> usernames = [];
 //fullResponse initialized as empty, but will store raw data from Firebase
 late http.Response fullResponse;
 //responseData initialized as empty, will store decoded data from Firebase
-late Map<String, dynamic> responseData = {};
+Map<String, dynamic> responseData = {};
 //NOTE: The inner map will PROBABLY stay as Dynamic since this might also store images???
 
 //Firebase URL
@@ -45,10 +45,8 @@ Future<bool> checkLogin(String email, String password) async {
 
   if (!(email.isEmpty || password.isEmpty || !emails.contains(email)) &&
       passwords[emails.indexOf(email)] == password) {
-    print('Yay you can log in');
     return true;
   } else {
-    print('Nope, you can\'t log in');
     return false;
   }
 }

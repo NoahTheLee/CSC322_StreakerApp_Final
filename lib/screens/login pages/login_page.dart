@@ -26,7 +26,7 @@ class LoginPageState extends State<LoginPage> {
   _changeUid(String email) {
     String newUid = keys[emails.indexOf(email)];
 
-    print('New UID: $newUid'); //TODO: remove this
+    print('New UID: $newUid'); //TODO: remove this when testing is done
 
     widget.changeUid(newUid);
   }
@@ -62,7 +62,7 @@ class LoginPageState extends State<LoginPage> {
   }
 
   void forceLogin() async {
-    //TODO: Remove this function
+    //TODO: Remove this function when testing is complete
     print('Forcing login as TestUser...');
 
     setValues();
@@ -82,27 +82,22 @@ class LoginPageState extends State<LoginPage> {
     setValues();
 
     if (email.isEmpty) {
-      print('handle empty email'); //TODO: handle empty email
       signingDataError('Email is required.');
       return;
     }
-    final RegExp emailRegex =
-        RegExp(r'^[\w\.-]+@[\w\.-]+\.\w+$'); //figured out how to regex, yay
+    final RegExp emailRegex = RegExp(r'^[\w\.-]+@[\w\.-]+\.\w+$');
     if (!emailRegex.hasMatch(email)) {
-      print('handle invalid email'); //TODO: handle invalid email
       signingDataError('Email not valid.');
       return;
     }
     if (password.isEmpty) {
-      print('handle empty password'); //TODO: handle empty password
       signingDataError('Password is required.');
       return;
     }
 
     if (await checkLogin(email, password)) {
       _changeUid(email);
-      widget
-          .doLogin(); //Moves to app home page, should only be called if login is successful
+      widget.doLogin();
     }
   }
 
@@ -131,50 +126,37 @@ class LoginPageState extends State<LoginPage> {
     //TODO: Handle backend response if no response is received
     setValues();
 
-    print(
-        'Username: $username, Email: $email, Password: $password, Checked password: $checkPassword'); //TODO: remove this
-
-    //TODO: decide if I want to display any kind of error on each field if it's incorrect
     if (username.isEmpty) {
-      print('handle empty username'); //TODO: handle empty username
       signingDataError('Username is required.');
       return;
     }
     if (usernames.contains(username)) {
-      print('handle duplicate username'); //TODO: handle duplicate username
       signingDataError('Username is already in use.');
       return;
     }
     if (email.isEmpty) {
-      print('handle empty email'); //TODO: handle empty email
       signingDataError('Email is required.');
       return;
     }
 
-    final RegExp emailRegex =
-        RegExp(r'^[\w\.-]+@[\w\.-]+\.\w+$'); //figured out how to regex, yay
+    final RegExp emailRegex = RegExp(r'^[\w\.-]+@[\w\.-]+\.\w+$');
     if (!emailRegex.hasMatch(email)) {
-      print('handle invalid email'); //TODO: handle invalid email
       signingDataError('Email not valid.');
       return;
     }
     if (emails.contains(email)) {
-      print('handle duplicate email'); //TODO: handle duplicate email
       signingDataError('Email is already in use.');
       return;
     }
     if (password.isEmpty) {
-      print('handle empty password'); //TODO: handle empty password
       signingDataError('Password is required.');
       return;
     }
     if (checkPassword.isEmpty) {
-      print('handle empty checkPassword'); //TODO: handle empty checkPassword
       signingDataError('Please confirm your password.');
       return;
     }
     if (password != checkPassword) {
-      print('handle mismatched passwords'); //TODO: handle mismatched passwords
       signingDataError('Passwords do not match.');
       return;
     }
@@ -232,14 +214,12 @@ class LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    // final activeFilters = ref.watch(uidProvider);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Login Page'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
-        //TODO: Make text obscurable/visible
         child: _signUp
             ? signIn(
                 menuStyle,

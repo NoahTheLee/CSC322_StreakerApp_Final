@@ -7,10 +7,10 @@ class HomeScreen extends StatefulWidget {
   final String uid;
 
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  HomeScreenState createState() => HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class HomeScreenState extends State<HomeScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   bool checkedValue = false;
   bool checkedValue2 = false;
@@ -91,7 +91,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 maxFontSize: 20,
                 softWrap: true,
                 maxLines: 4,
-                
               ),
             ),
             CheckboxListTile(
