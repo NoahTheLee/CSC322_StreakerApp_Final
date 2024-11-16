@@ -81,8 +81,21 @@ class HomeScreenState extends State<HomeScreen> {
                 itemCount: widget.items.length,
                 itemBuilder: (context, index) {
                   return CheckboxListTile(
-                    title: Text(widget.items[index],
-                        style: const TextStyle(color: Colors.white)),
+                    controlAffinity: ListTileControlAffinity.leading,
+                    contentPadding:
+                        const EdgeInsets.only(left: 100, right: 100),
+                    checkColor: Colors.white,
+                    title: AutoSizeText(
+                      widget.items[index],
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      minFontSize: 10,
+                      maxFontSize: 20,
+                      softWrap: true,
+                      maxLines: 4,
+                    ),
                     value: selectedItems[index],
                     onChanged: (bool? value) {
                       setState(() {
