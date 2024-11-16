@@ -1,7 +1,9 @@
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:csc322_streaker_final/providers/tasks_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key, required this.uid, required this.items});
 
   final String uid;
@@ -12,13 +14,12 @@ class HomeScreen extends StatefulWidget {
   HomeScreenState createState() => HomeScreenState();
 }
 
-class HomeScreenState extends State<HomeScreen> {
+class HomeScreenState extends ConsumerState<HomeScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   bool checkedValue = false;
   bool checkedValue2 = false;
 
-  late List<bool> selectedItems =
-      List<bool>.generate(widget.items.length, (index) => false);
+  List<bool> selectedItems = [];
 
   Color _colorButton() {
     if (!selectedItems.contains(false)) {
@@ -30,6 +31,9 @@ class HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final providiedTasks = ref.watch(tasksProvider);
+    selectedItems =
+        List<bool>.generate(providiedTasks.length, (index) => false);
     return Scaffold(
       key: _scaffoldKey,
       drawer: const Drawer(),
@@ -78,7 +82,7 @@ class HomeScreenState extends State<HomeScreen> {
             const SizedBox(height: 20),
             Expanded(
               child: ListView.builder(
-                itemCount: widget.items.length,
+                itemCount: providiedTasks.length,
                 itemBuilder: (context, index) {
                   return CheckboxListTile(
                     controlAffinity: ListTileControlAffinity.leading,
@@ -86,7 +90,7 @@ class HomeScreenState extends State<HomeScreen> {
                         const EdgeInsets.only(left: 100, right: 100),
                     checkColor: Colors.white,
                     title: AutoSizeText(
-                      widget.items[index],
+                      providiedTasks[index],
                       style: const TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,

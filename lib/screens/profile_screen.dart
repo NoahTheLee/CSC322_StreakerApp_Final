@@ -1,7 +1,9 @@
 import 'package:csc322_streaker_final/firebase%20stuff/firebase_handler.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:csc322_streaker_final/providers/tasks_provider.dart';
 
-class ProfileScreen extends StatefulWidget {
+class ProfileScreen extends ConsumerStatefulWidget {
   const ProfileScreen(
       {super.key,
       required this.uid,
@@ -15,10 +17,12 @@ class ProfileScreen extends StatefulWidget {
   final Function(int) removeItem;
 
   @override
-  ProfileScreenState createState() => ProfileScreenState();
+  ConsumerState<ProfileScreen> createState() {
+    return ProfileScreenState();
+  }
 }
 
-class ProfileScreenState extends State<ProfileScreen> {
+class ProfileScreenState extends ConsumerState<ProfileScreen> {
   final String _banner = 'assets/defaults/Default_Banner.png';
   final String _profile = 'assets/defaults/Default_Profile_Picture.png';
   String _username = ''; //Temporary Username
@@ -27,10 +31,13 @@ class ProfileScreenState extends State<ProfileScreen> {
   void initState() {
     super.initState();
     _username = usernames[keys.indexOf(widget.uid)];
+    // final providedTasks = ref.watch(tasksProvider);
   }
 
   @override
   Widget build(BuildContext context) {
+    final providiedTasks = ref.watch(tasksProvider);
+
     return Scaffold(
       backgroundColor: Colors.black,
       body: Center(
@@ -102,17 +109,17 @@ class ProfileScreenState extends State<ProfileScreen> {
                   Expanded(
                     child: ListView.builder(
                       //ListView.builder cannibalized from shopping app
-                      itemCount: widget.items.length,
+                      itemCount: providiedTasks.length,
                       itemBuilder: (context, index) {
                         return Dismissible(
                           //Make them dismissible
                           key: Key(
-                            widget.items[index],
+                            providiedTasks[index],
                           ),
                           onDismissed: (direction) {
                             //Get rid of the thing
                             //TODO: Remove from database
-                            widget.removeItem(index);
+                            ref.read(tasksProvider.notifier).removeTask(index);
                           },
                           background: Container(
                             //Background for the dismissible
@@ -134,7 +141,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                             title: Center(
                               child: Text(
                                 //The item itself, just a text widget
-                                widget.items[index],
+                                providiedTasks[index],
                                 style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 20,
