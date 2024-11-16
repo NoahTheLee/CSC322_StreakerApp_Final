@@ -2,9 +2,11 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key, required this.uid});
+  const HomeScreen({super.key, required this.uid, required this.items});
 
   final String uid;
+
+  final List<String> items;
 
   @override
   HomeScreenState createState() => HomeScreenState();
@@ -15,8 +17,11 @@ class HomeScreenState extends State<HomeScreen> {
   bool checkedValue = false;
   bool checkedValue2 = false;
 
+  late List<bool> selectedItems =
+      List<bool>.generate(widget.items.length, (index) => false);
+
   Color _colorButton() {
-    if (checkedValue && checkedValue2) {
+    if (!selectedItems.contains(false)) {
       return const Color.fromARGB(255, 211, 47, 47);
     } else {
       return Colors.grey;
@@ -71,48 +76,21 @@ class HomeScreenState extends State<HomeScreen> {
               ),
             ),
             const SizedBox(height: 20),
-            CheckboxListTile(
-              controlAffinity: ListTileControlAffinity.leading,
-              contentPadding: const EdgeInsets.only(left: 100, right: 100),
-              checkColor: Colors.white,
-              value: checkedValue,
-              onChanged: (newValue) {
-                setState(() {
-                  checkedValue = newValue!;
-                });
-              },
-              title: const AutoSizeText(
-                'Task',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
-                minFontSize: 10,
-                maxFontSize: 20,
-                softWrap: true,
-                maxLines: 4,
-              ),
-            ),
-            CheckboxListTile(
-              controlAffinity: ListTileControlAffinity.leading,
-              contentPadding: const EdgeInsets.only(left: 100, right: 100),
-              checkColor: Colors.white,
-              value: checkedValue2,
-              onChanged: (newValue) {
-                setState(() {
-                  checkedValue2 = newValue!;
-                });
-              },
-              title: const AutoSizeText(
-                'Task But It has a really long name that will not fit in the box But I guess I can see how far I can Go so I will keep Typing stuff until it seems way too long and funny to look at becasue it is so long in comparesion to everything else XD',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
-                minFontSize: 10,
-                maxFontSize: 20,
-                softWrap: true,
-                maxLines: 4,
+            Expanded(
+              child: ListView.builder(
+                itemCount: widget.items.length,
+                itemBuilder: (context, index) {
+                  return CheckboxListTile(
+                    title: Text(widget.items[index],
+                        style: const TextStyle(color: Colors.white)),
+                    value: selectedItems[index],
+                    onChanged: (bool? value) {
+                      setState(() {
+                        selectedItems[index] = value ?? false;
+                      });
+                    },
+                  );
+                },
               ),
             ),
             const SizedBox(height: 20),
@@ -130,11 +108,6 @@ class HomeScreenState extends State<HomeScreen> {
               ),
               child: const Text('Complete Tasks'),
             ),
-            ElevatedButton(
-                onPressed: () {
-                  print(widget.uid);
-                },
-                child: const Text('Print UID'))
           ],
         ),
       ),
