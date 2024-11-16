@@ -4,16 +4,17 @@ class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
 
   @override
-  _SettingsScreenState createState() => _SettingsScreenState();
+  SettingsScreenState createState() => SettingsScreenState();
 }
 
-class _SettingsScreenState extends State<SettingsScreen> {
+class SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
-        title: const Text('Settings Screen', style: TextStyle(color: Colors.white)),
+        title: const Text('Settings Screen',
+            style: TextStyle(color: Colors.white)),
       ),
       body: const Center(
         child: Text(

@@ -2,15 +2,23 @@ import 'package:csc322_streaker_final/firebase%20stuff/firebase_handler.dart';
 import 'package:flutter/material.dart';
 
 class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({super.key, required this.uid});
+  const ProfileScreen(
+      {super.key,
+      required this.uid,
+      required this.items,
+      required this.removeItem});
 
   final String uid;
 
+  final List<String> items;
+
+  final Function(int) removeItem;
+
   @override
-  _ProfileScreenState createState() => _ProfileScreenState();
+  ProfileScreenState createState() => ProfileScreenState();
 }
 
-class _ProfileScreenState extends State<ProfileScreen> {
+class ProfileScreenState extends State<ProfileScreen> {
   final String _banner = 'assets/defaults/Default_Banner.png';
   final String _profile = 'assets/defaults/Default_Profile_Picture.png';
   String _username = ''; //Temporary Username
@@ -89,21 +97,59 @@ class _ProfileScreenState extends State<ProfileScreen> {
             SizedBox(
               height: MediaQuery.sizeOf(context).height / 2 - 100,
               width: MediaQuery.sizeOf(context).width - 20,
-              child: const SingleChildScrollView(
-                scrollDirection: Axis.vertical,
-                child: Column(
-                  children: [
-                    Text(
-                      'Item 1',
-                      style: TextStyle(
-                        color: Color.fromARGB(255, 196, 196, 196),
-                        fontSize: 20,
-                      ),
+              child: Column(
+                children: [
+                  Expanded(
+                    child: ListView.builder(
+                      //ListView.builder cannibalized from shopping app
+                      itemCount: widget.items.length,
+                      itemBuilder: (context, index) {
+                        return Dismissible(
+                          //Make them dismissible
+                          key: Key(
+                            widget.items[index],
+                          ),
+                          onDismissed: (direction) {
+                            //Get rid of the thing
+                            //TODO: Remove from database
+                            widget.removeItem(index);
+                          },
+                          background: Container(
+                            //Background for the dismissible
+                            alignment: Alignment.centerRight,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(30),
+                                color:
+                                    const Color.fromARGB(255, 229, 126, 119)),
+                            child: const Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 30, vertical: 10),
+                              child: Icon(
+                                Icons.delete,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                          child: ListTile(
+                            title: Center(
+                              child: Text(
+                                //The item itself, just a text widget
+                                widget.items[index],
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                      },
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
+
             ////////////////////////////////////////////////////////////////////////////////////
             //////////////////////////////Add New Item//////////////////////////////////////////
             const SizedBox(height: 10),
