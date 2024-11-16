@@ -41,7 +41,8 @@ class HomePageState extends State<HomePage> {
     super.initState();
     _screens = [
       const CreditsScreen(),
-      ProfileScreen(uid: widget.uid),
+      ProfileScreen(
+          uid: widget.uid, items: trackedTasks, removeItem: removeItem),
       HomeScreen(uid: widget.uid, items: trackedTasks),
       const NotificationsScreen(),
       const SettingsScreen(),

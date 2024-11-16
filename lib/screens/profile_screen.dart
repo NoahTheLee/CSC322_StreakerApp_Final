@@ -1,39 +1,56 @@
+import 'package:csc322_streaker_final/firebase%20stuff/firebase_handler.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:csc322_streaker_final/providers/items_provider.dart';
 
-// The ProfileScreen now accepts a 'uid' and uses Riverpod for items.
-class ProfileScreen extends ConsumerWidget {
-  const ProfileScreen({
-    super.key,
-    required this.uid,
-  });
+class ProfileScreen extends StatefulWidget {
+  const ProfileScreen(
+      {super.key,
+      required this.uid,
+      required this.items,
+      required this.removeItem});
 
   final String uid;
 
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final items =
-        ref.watch(itemListProvider); // Watch the item list from the provider
-    final TextEditingController controller = TextEditingController();
+  final List<String> items;
 
+  final Function(int) removeItem;
+
+  @override
+  ProfileScreenState createState() => ProfileScreenState();
+}
+
+class ProfileScreenState extends State<ProfileScreen> {
+  final String _banner = 'assets/defaults/Default_Banner.png';
+  final String _profile = 'assets/defaults/Default_Profile_Picture.png';
+  String _username = ''; //Temporary Username
+
+  @override
+  void initState() {
+    super.initState();
+    _username = usernames[keys.indexOf(widget.uid)];
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
       body: Center(
         child: Column(
           children: [
             Stack(
+              ///////////////////////////////Banner Picture Location///////////////////////////
               children: [
                 const SizedBox(
                   height: 300,
                   width: double.infinity,
                 ),
                 Image.asset(
-                  'assets/defaults/Default_Banner.png',
+                  _banner,
                   height: 200,
                   width: double.infinity,
                   fit: BoxFit.cover,
                 ),
+                ////////////////////////////////////////////////////////////////////////////////
+                /////////////////////////////Profile Picture Location///////////////////////////
                 Positioned(
                   top: MediaQuery.sizeOf(context).height / 7,
                   left: MediaQuery.sizeOf(context).width / 2 - 64,
@@ -42,16 +59,18 @@ class ProfileScreen extends ConsumerWidget {
                     backgroundColor: Colors.white,
                     child: CircleAvatar(
                       radius: 60,
-                      backgroundImage: AssetImage(
-                          'assets/defaults/Default_Profile_Picture.png'),
+                      backgroundImage: AssetImage(_profile),
                     ),
                   ),
                 ),
+                ////////////////////////////////////////////////////////////////////////////////
+                /////////////////////////////Username Location//////////////////////////////////
                 Positioned(
                   bottom: 10,
-                  left: MediaQuery.sizeOf(context).width / 2 - uid.length * 9,
+                  left: MediaQuery.sizeOf(context).width / 2 -
+                      _username.length * 9,
                   child: Text(
-                    uid, // Temporary Username (use your actual username logic)
+                    _username, //Temporary Username
                     style: const TextStyle(
                       color: Color.fromARGB(255, 221, 218, 255),
                       fontSize: 30,
@@ -59,8 +78,10 @@ class ProfileScreen extends ConsumerWidget {
                     ),
                   ),
                 )
+                ////////////////////////////////////////////////////////////////////////////////
               ],
             ),
+            //////////////////////////////Items to Track Title//////////////////////////////////
             const SizedBox(height: 20),
             const Text(
               'Your Items to Track',
@@ -71,6 +92,8 @@ class ProfileScreen extends ConsumerWidget {
                 fontFamily: 'Arial Black',
               ),
             ),
+            ////////////////////////////////////////////////////////////////////////////////////
+            //////////////////////////////Items to Track List///////////////////////////////////
             SizedBox(
               height: MediaQuery.sizeOf(context).height / 2 - 100,
               width: MediaQuery.sizeOf(context).width - 20,
@@ -78,22 +101,26 @@ class ProfileScreen extends ConsumerWidget {
                 children: [
                   Expanded(
                     child: ListView.builder(
-                      itemCount: items.length,
+                      //ListView.builder cannibalized from shopping app
+                      itemCount: widget.items.length,
                       itemBuilder: (context, index) {
                         return Dismissible(
-                          key: Key(items[index]),
+                          //Make them dismissible
+                          key: Key(
+                            widget.items[index],
+                          ),
                           onDismissed: (direction) {
-                            // Remove the item using Riverpod
-                            ref
-                                .read(itemListProvider.notifier)
-                                .removeItem(index);
+                            //Get rid of the thing
+                            //TODO: Remove from database
+                            widget.removeItem(index);
                           },
                           background: Container(
+                            //Background for the dismissible
                             alignment: Alignment.centerRight,
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(30),
-                              color: const Color.fromARGB(255, 229, 126, 119),
-                            ),
+                                borderRadius: BorderRadius.circular(30),
+                                color:
+                                    const Color.fromARGB(255, 229, 126, 119)),
                             child: const Padding(
                               padding: EdgeInsets.symmetric(
                                   horizontal: 30, vertical: 10),
@@ -106,7 +133,8 @@ class ProfileScreen extends ConsumerWidget {
                           child: ListTile(
                             title: Center(
                               child: Text(
-                                items[index],
+                                //The item itself, just a text widget
+                                widget.items[index],
                                 style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 20,
@@ -121,9 +149,11 @@ class ProfileScreen extends ConsumerWidget {
                 ],
               ),
             ),
+
+            ////////////////////////////////////////////////////////////////////////////////////
+            //////////////////////////////Add New Item//////////////////////////////////////////
             const SizedBox(height: 10),
             TextField(
-              controller: controller,
               decoration: InputDecoration(
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
@@ -134,14 +164,8 @@ class ProfileScreen extends ConsumerWidget {
                   fontSize: 15,
                 ),
               ),
-              onSubmitted: (value) {
-                if (value.isNotEmpty) {
-                  // Add the new item to the list via Riverpod
-                  ref.read(itemListProvider.notifier).addItem(value);
-                  controller.clear(); // Clear the input field after adding
-                }
-              },
             ),
+            /////////////////////////////////////////////////////////////////////////////////////
           ],
         ),
       ),
