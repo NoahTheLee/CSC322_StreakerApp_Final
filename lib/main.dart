@@ -1,10 +1,9 @@
 import 'package:csc322_streaker_final/Testing/testing_screen.dart';
 import 'package:csc322_streaker_final/screens/login pages/login_page.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:csc322_streaker_final/navigator.dart';
-import 'package:csc322_streaker_final/providers/items_provider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,15 +14,15 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => ItemList(), // Initialize the ItemList provider
+    return ProviderScope(
+      // Wrap your entire app in ProviderScope
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
           scaffoldBackgroundColor: Colors.black,
           primarySwatch: Colors.blue,
         ),
-        home: const MyHome(),
+        home: const MyHome(), // Home page remains as is
       ),
     );
   }

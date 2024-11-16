@@ -41,11 +41,16 @@ class HomePageState extends State<HomePage> {
     super.initState();
     _screens = [
       const CreditsScreen(),
-      ProfileScreen(uid: widget.uid, items: trackedTasks),
+      ProfileScreen(uid: widget.uid),
       HomeScreen(uid: widget.uid, items: trackedTasks),
       const NotificationsScreen(),
       const SettingsScreen(),
     ];
+  }
+
+  void removeItem(index) {
+    setState(() {});
+    trackedTasks.removeAt(index);
   }
 
   //Function to change the selected index
