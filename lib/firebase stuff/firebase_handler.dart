@@ -19,6 +19,12 @@ final Uri firebaseUrl = Uri.https(
 //Function to update response
 //This needs to be future, since it's an async function... Neat
 Future<void> updateResponse() async {
+  //Nuke the lists
+  keys.clear();
+  emails.clear();
+  passwords.clear();
+  usernames.clear();
+
   //Pulling data with GET
   //Formatted as http.get(url)
   fullResponse = await http.get(firebaseUrl); //pulls data from Firebase

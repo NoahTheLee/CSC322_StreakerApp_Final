@@ -17,7 +17,6 @@ class HomeScreen extends ConsumerStatefulWidget {
 class HomeScreenState extends ConsumerState<HomeScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   bool checkedValue = false;
-  bool checkedValue2 = false;
 
   List<bool> selectedItems = [];
 
@@ -103,6 +102,7 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
                     value: selectedItems[index],
                     onChanged: (bool? value) {
                       setState(() {
+                        print('Selected Index: $index');
                         selectedItems[index] = value ?? false;
                       });
                     },
