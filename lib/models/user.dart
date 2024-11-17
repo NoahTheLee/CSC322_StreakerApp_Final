@@ -1,8 +1,8 @@
 class User {
   User(
+    this.username,
     this.email,
     this.password,
-    this.username,
     this.uid,
   );
 
