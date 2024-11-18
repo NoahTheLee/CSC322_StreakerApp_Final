@@ -1,6 +1,5 @@
 import 'package:csc322_streaker_final/Testing/testing_screen.dart';
 import 'package:csc322_streaker_final/Testing/testing_screen_2.dart';
-import 'package:csc322_streaker_final/models/handlers/user_setter.dart';
 import 'package:csc322_streaker_final/screens/login pages/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

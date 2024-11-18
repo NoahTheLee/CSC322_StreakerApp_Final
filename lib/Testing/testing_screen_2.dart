@@ -105,7 +105,7 @@ class _TestingScreen2State extends State<TestingScreen2> {
               onPressed: () async {
                 setValues();
                 //By targeting the database, then a userID, then a specific subfolder, can push a segment of data
-                final updResponse = await http.patch(
+                http.patch(
                   Uri.https('csc322-streaker-final-default-rtdb.firebaseio.com',
                       'Users/${widget.uid}/Data.json'),
                   headers: {
