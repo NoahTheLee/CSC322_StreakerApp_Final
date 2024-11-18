@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:csc322_streaker_final/firebase%20stuff/firebase_handler.dart';
+import 'package:csc322_streaker_final/models/handlers/user_setter.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 
@@ -17,6 +18,19 @@ class TestingScreen2 extends StatefulWidget {
 }
 
 class _TestingScreen2State extends State<TestingScreen2> {
+  final TextEditingController taskName = TextEditingController();
+  var task = '';
+
+  @override
+  dispose() {
+    taskName.dispose();
+    super.dispose();
+  }
+
+  void setValues() {
+    task = taskName.text;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,6 +42,16 @@ class _TestingScreen2State extends State<TestingScreen2> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            //Text field for task name
+            TextField(
+              controller: taskName,
+              style: const TextStyle(
+                color: Colors.white,
+              ),
+              decoration: const InputDecoration(
+                labelText: 'Task Name',
+              ),
+            ),
             //Check data from Firebase
             TextButton(
               onPressed: () async {
@@ -44,6 +68,7 @@ class _TestingScreen2State extends State<TestingScreen2> {
               },
               child: const Text('Retrieve data from Firebase'),
             ),
+            //Reset basic user
             TextButton(
               child: const Text('Reset data'),
               onPressed: () async {
@@ -74,21 +99,35 @@ class _TestingScreen2State extends State<TestingScreen2> {
                 //End of text button to-execute
               },
             ),
+            //Send data to new field
             TextButton(
-                child: const Text('Push other Data'),
-                onPressed: () async {
-                  //By targeting the database, then a userID, then a specific subfolder, can push a segment of data
-                  final updResponse = await http.put(
-                    Uri.https(
-                        'csc322-streaker-final-default-rtdb.firebaseio.com',
-                        'Users/${widget.uid}/Data.json'),
-                    headers: {
-                      'Content-Type': 'application/json',
-                    },
-                    body: json.encode({'todo': 'yay'}),
-                  );
-                  //End of text button to-execute
-                })
+              child: const Text('Push other Data'),
+              onPressed: () async {
+                setValues();
+                //By targeting the database, then a userID, then a specific subfolder, can push a segment of data
+                final updResponse = await http.patch(
+                  Uri.https('csc322-streaker-final-default-rtdb.firebaseio.com',
+                      'Users/${widget.uid}/Data.json'),
+                  headers: {
+                    'Content-Type': 'application/json',
+                  },
+                  body: json.encode({task: false}),
+                );
+                //End of text button to-execute
+              },
+            ),
+            TextButton(
+              onPressed: () {
+                setUsers();
+              },
+              child: const Text('Check setting users'),
+            ),
+            TextButton(
+              onPressed: () {
+                findUser(widget.uid);
+              },
+              child: const Text('Check finding user'),
+            ),
           ],
         ),
       ),
