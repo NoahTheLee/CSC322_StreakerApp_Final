@@ -6,7 +6,10 @@ import 'package:csc322_streaker_final/screens/settings_screen.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key, required this.uid});
+  const HomePage({
+    super.key,
+    required this.uid,
+  });
 
   final String uid;
 

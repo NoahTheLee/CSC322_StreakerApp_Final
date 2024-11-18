@@ -63,12 +63,12 @@ class LoginPageState extends State<LoginPage> {
 
   void forceLogin() async {
     //TODO: Remove this function when testing is complete
-    print('Forcing login as TestUser...');
+    print('Forcing login as testuser...');
 
     setValues();
 
-    email = "test@domain.gov";
-    password = "Testing123";
+    email = "test@domain.net";
+    password = "12345";
     if (await checkLogin(email, password)) {
       _changeUid(email);
       widget

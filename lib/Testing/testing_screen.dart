@@ -111,6 +111,7 @@ class _TestingScreenState extends State<TestingScreen> {
               },
               child: const Text('Send data to Firebase'),
             ),
+            //Get data from Firebase
             TextButton(
               onPressed: () async {
                 //TODO: Need loading method to fetch data
@@ -126,6 +127,7 @@ class _TestingScreenState extends State<TestingScreen> {
               },
               child: const Text('Retrieve data from Firebase'),
             ),
+            //Test login against data
             TextButton(
               onPressed: () async {
                 setValues();
