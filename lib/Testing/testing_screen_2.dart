@@ -24,6 +24,7 @@ class _TestingScreen2State extends State<TestingScreen2> {
     super.dispose();
   }
 
+  //Returns a map of tasks and their completion status
   Future<Map<String, bool>> getTasks(String uid) async {
     late Map<String, bool> tasks = {};
     //Reach out to Firebase
@@ -31,6 +32,7 @@ class _TestingScreen2State extends State<TestingScreen2> {
     //Compile list
     //Return list
 
+    //TODO: This might brick, do testing later
     for (final item in (await getResponse()).entries) {
       if (item.key == uid) {
         item.value['Data'].forEach((key, value) {
@@ -42,11 +44,42 @@ class _TestingScreen2State extends State<TestingScreen2> {
     return tasks;
   }
 
-  void addTask(String uid, String task) {
+  void addTask(String uid, String task) async {
     //Reach out to Firebase
     //Use UID to get specific user's address of tasks
     //Append task to list
     //Return positive?
+
+    //Handle empty task, show dialogue, do not pass go, do not collect $200
+    if (task.isEmpty || task == '') {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text('No task Provided'),
+            content: const Text('Please provide a task to add.'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
+      return;
+    }
+
+    http.patch(
+      Uri.https('csc322-streaker-final-default-rtdb.firebaseio.com',
+          'Users/$uid/Data.json'),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: json.encode({task: false}),
+    );
   }
 
   void removeTask(String uid, String task) {
@@ -54,13 +87,88 @@ class _TestingScreen2State extends State<TestingScreen2> {
     //Use UID to get specific user's address of tasks
     //Remove task from list
     //Return positive?
+
+    //Handle empty task, show dialogue, do not pass go, do not collect $200
+    if (task.isEmpty || task == '') {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text('No task Provided'),
+            content: const Text('Please provide a task to add.'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
+      return;
+    }
+
+    http.delete(
+      Uri.https('csc322-streaker-final-default-rtdb.firebaseio.com',
+          'Users/$uid/Data/$task.json'), //Copilot saved my butt ty Copilot ily
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    );
   }
 
-  void updateTask(String uid, String task) {
+  void updateTask(String uid, String task) async {
     //Reach out to Firebase
     //Use UID to get specific user's address of tasks
     //Update task in list
     //Return positive?
+
+    if (task.isEmpty || task == '') {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text('No task Provided'),
+            content: const Text('Please provide a task to add.'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
+      return;
+    }
+
+    // Fetch the current value of the task
+    final response = await http.get(
+      Uri.https('csc322-streaker-final-default-rtdb.firebaseio.com',
+          'Users/$uid/Data/$task.json'),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    );
+
+    final currentValue = json.decode(response.body);
+
+    // Toggle the value
+    final newValue = !(currentValue as bool);
+
+    // Update the task with the new value
+    await http.patch(
+      Uri.https('csc322-streaker-final-default-rtdb.firebaseio.com',
+          'Users/$uid/Data.json'),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: json.encode({task: newValue ? true : false}),
+    );
   }
 
   void setValues() {
@@ -137,26 +245,27 @@ class _TestingScreen2State extends State<TestingScreen2> {
             ),
             //Send data to new field
             TextButton(
-              child: const Text('Push other Data'),
+              child: const Text('Send new Task to Firebase'),
               onPressed: () async {
                 setValues();
                 //By targeting the database, then a userID, then a specific subfolder, can push a segment of data
-                http.patch(
-                  Uri.https('csc322-streaker-final-default-rtdb.firebaseio.com',
-                      'Users/${widget.uid}/Data.json'),
-                  headers: {
-                    'Content-Type': 'application/json',
-                  },
-                  body: json.encode({task: false}),
-                );
+                addTask(widget.uid, task);
                 //End of text button to-execute
               },
             ),
             TextButton(
               onPressed: () async {
-                print(getTasks(widget.uid));
+                setValues();
+                removeTask(widget.uid, task);
               },
-              child: const Text('Check setting users'),
+              child: const Text('Delete task from Firebase'),
+            ),
+            TextButton(
+              onPressed: () async {
+                setValues();
+                updateTask(widget.uid, task);
+              },
+              child: const Text('Update task in Firebase'),
             ),
             TextButton(
               onPressed: () async {
