@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -59,4 +60,154 @@ Future<bool> checkLogin(String email, String password) async {
   } else {
     return false;
   }
+}
+
+//Returning a string of tasks and their boolean values
+Future<Map<String, bool>> getTasks(String uid) async {
+  late Map<String, bool> tasks = {};
+  //Reach out to Firebase
+  //Use UID to get the specific user's tasks
+  //Compile list
+  //Return list
+
+  //TODO: This might brick, do testing later
+  for (final item in (await getResponse()).entries) {
+    if (item.key == uid) {
+      item.value['Data'].forEach((key, value) {
+        tasks[key] = value;
+      });
+    }
+  }
+
+  return tasks;
+}
+
+//Adding a task to the user's list
+void addTask(String uid, String task, BuildContext context) async {
+  //Reach out to Firebase
+  //Use UID to get specific user's address of tasks
+  //Append task to list
+  //Return positive?
+
+  //Handle empty task, show dialogue, do not pass go, do not collect $200
+  if (task.isEmpty || task == '') {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('No task Provided'),
+          content: const Text('Please provide a task to add.'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+    return;
+  }
+
+  http.patch(
+    Uri.https('csc322-streaker-final-default-rtdb.firebaseio.com',
+        'Users/$uid/Data.json'),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: json.encode({task: false}),
+  );
+}
+
+//Removing a task from the user's list
+void removeTask(String uid, String task, BuildContext context) {
+  //Reach out to Firebase
+  //Use UID to get specific user's address of tasks
+  //Remove task from list
+  //Return positive?
+
+  //Handle empty task, show dialogue, do not pass go, do not collect $200
+  if (task.isEmpty || task == '') {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('No task Provided'),
+          content: const Text('Please provide a task to add.'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+    return;
+  }
+
+  http.delete(
+    Uri.https('csc322-streaker-final-default-rtdb.firebaseio.com',
+        'Users/$uid/Data/$task.json'), //Copilot saved my butt ty Copilot ily
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  );
+}
+
+//Updating a task's status
+void updateTask(String uid, String task, BuildContext context) async {
+  //Reach out to Firebase
+  //Use UID to get specific user's address of tasks
+  //Update task in list
+  //Return positive?
+
+  if (task.isEmpty || task == '') {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('No task Provided'),
+          content: const Text('Please provide a task to add.'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
+    return;
+  }
+
+  // Fetch the current value of the task
+  final response = await http.get(
+    Uri.https('csc322-streaker-final-default-rtdb.firebaseio.com',
+        'Users/$uid/Data/$task.json'),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  );
+
+  final currentValue = json.decode(response.body);
+
+  // Toggle the value
+  final newValue = !(currentValue as bool);
+
+  // Update the task with the new value
+  await http.patch(
+    Uri.https('csc322-streaker-final-default-rtdb.firebaseio.com',
+        'Users/$uid/Data.json'),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: json.encode({task: newValue ? true : false}),
+  );
 }
