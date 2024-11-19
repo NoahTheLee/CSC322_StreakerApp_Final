@@ -1,3 +1,4 @@
+import 'package:csc322_streaker_final/firebase%20stuff/firebase_handler.dart';
 import 'package:csc322_streaker_final/models/user.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
@@ -12,8 +13,6 @@ List<User> users = [];
 
 //Vars for Firebase
 late http.Response fullResponse;
-final Uri firebaseUrl = Uri.https(
-    'csc322-streaker-final-default-rtdb.firebaseio.com', 'Users.json');
 Map<String, dynamic> userResponseData = {};
 
 void setUsers() async {
