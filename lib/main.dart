@@ -43,7 +43,7 @@ class MyHome extends StatefulWidget {
 class _MyHomeState extends State<MyHome> {
   bool isLoggedIn = false;
 
-  int testState = 0; //TODO: Remove this when testing is complete
+  int testState = 2; //TODO: Remove this when testing is complete
   // 1 = TestingScreen 2 = TestingScreen2
   bool testingEnabled = false; //TODO: Remove this when testing is complete
   bool testingEnabled2 = false; //TODO: Remove this when testing is complete
