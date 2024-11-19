@@ -1,7 +1,6 @@
 import 'package:csc322_streaker_final/firebase%20stuff/firebase_handler.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:csc322_streaker_final/providers/tasks_provider.dart';
 
 class ProfileScreen extends ConsumerStatefulWidget {
   const ProfileScreen(
@@ -27,17 +26,34 @@ class ProfileScreenState extends ConsumerState<ProfileScreen> {
   final String _profile = 'assets/defaults/Default_Profile_Picture.png';
   String _username = ''; //Temporary Username
 
+  final TextEditingController _taskName = TextEditingController();
+
+  List<String> tasks = [];
+
   @override
   void initState() {
-    super.initState();
     _username = usernames[keys.indexOf(widget.uid)];
-    // final providedTasks = ref.watch(tasksProvider);
+    setTaskNames();
+
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _taskName.dispose();
+    super.dispose();
+  }
+
+  void setTaskNames() async {
+    await getTaskNames(widget.uid).then((value) {
+      setState(() {
+        tasks = value;
+      });
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    final providiedTasks = ref.watch(tasksProvider);
-
     return Scaffold(
       backgroundColor: Colors.black,
       body: Center(
@@ -109,17 +125,20 @@ class ProfileScreenState extends ConsumerState<ProfileScreen> {
                   Expanded(
                     child: ListView.builder(
                       //ListView.builder cannibalized from shopping app
-                      itemCount: providiedTasks.length,
+                      itemCount: tasks.length,
                       itemBuilder: (context, index) {
                         return Dismissible(
                           //Make them dismissible
                           key: Key(
-                            providiedTasks[index],
+                            tasks[index],
                           ),
                           onDismissed: (direction) {
                             //Get rid of the thing
                             //TODO: Remove from database
-                            ref.read(tasksProvider.notifier).removeTask(index);
+                            removeTask(widget.uid, tasks[index]);
+                            setState(() {
+                              tasks.removeAt(index);
+                            });
                           },
                           background: Container(
                             //Background for the dismissible
@@ -141,7 +160,7 @@ class ProfileScreenState extends ConsumerState<ProfileScreen> {
                             title: Center(
                               child: Text(
                                 //The item itself, just a text widget
-                                providiedTasks[index],
+                                tasks[index],
                                 style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 20,
@@ -160,17 +179,81 @@ class ProfileScreenState extends ConsumerState<ProfileScreen> {
             ////////////////////////////////////////////////////////////////////////////////////
             //////////////////////////////Add New Item//////////////////////////////////////////
             const SizedBox(height: 10),
-            TextField(
-              decoration: InputDecoration(
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10),
+            Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    style: const TextStyle(
+                        color: Color.fromARGB(255, 166, 166, 166)),
+                    controller: _taskName,
+                    decoration: InputDecoration(
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      hintText: 'Enter your new item here',
+                      hintStyle: const TextStyle(
+                        color: Color.fromARGB(255, 166, 166, 166),
+                        fontSize: 15,
+                      ),
+                    ),
+                  ),
                 ),
-                hintText: 'Enter your new item here',
-                hintStyle: const TextStyle(
-                  color: Color.fromARGB(255, 166, 166, 166),
-                  fontSize: 15,
-                ),
-              ),
+                IconButton(
+                  onPressed: () {
+                    String task = _taskName.text;
+                    if (task.isEmpty || task == '') {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: const Text('No task Provided'),
+                            content:
+                                const Text('Please provide a task to add.'),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: const Text('OK'),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                      return;
+                    }
+                    if (!RegExp(r'^[a-zA-Z0-9\s]+$').hasMatch(task)) {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: const Text('Invalid task'),
+                            content: const Text(
+                                'Tasks can only contain alphanumeric characters and spaces.'),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: const Text('OK'),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                      return;
+                    }
+                    addTask(widget.uid, task);
+                    setState(() {
+                      tasks.add(task);
+                    });
+                  },
+                  icon: const Icon(
+                    Icons.send,
+                    color: Colors.white,
+                  ),
+                )
+              ],
             ),
             /////////////////////////////////////////////////////////////////////////////////////
           ],
