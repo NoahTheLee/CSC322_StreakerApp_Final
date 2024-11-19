@@ -1,5 +1,4 @@
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:csc322_streaker_final/providers/tasks_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -18,7 +17,26 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   bool checkedValue = false;
 
+  //TODO Add functionality
+  List<String> tasks = [
+    'Task 1',
+    'Task 2',
+    'Task 3',
+    'Task 4',
+    'Task 5',
+    'Task 6',
+    'Task 7',
+    'Task 8',
+    'Task 9',
+    'Task 10',
+  ];
+
   List<bool> selectedItems = [];
+
+  initState() {
+    selectedItems = List<bool>.filled(tasks.length, false);
+    super.initState();
+  }
 
   Color _colorButton() {
     if (!selectedItems.contains(false)) {
@@ -30,9 +48,6 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final providiedTasks = ref.watch(tasksProvider);
-    selectedItems =
-        List<bool>.generate(providiedTasks.length, (index) => false);
     return Scaffold(
       key: _scaffoldKey,
       drawer: const Drawer(),
@@ -81,7 +96,7 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
             const SizedBox(height: 20),
             Expanded(
               child: ListView.builder(
-                itemCount: providiedTasks.length,
+                itemCount: tasks.length,
                 itemBuilder: (context, index) {
                   return CheckboxListTile(
                     controlAffinity: ListTileControlAffinity.leading,
@@ -89,7 +104,7 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
                         const EdgeInsets.only(left: 100, right: 100),
                     checkColor: Colors.white,
                     title: AutoSizeText(
-                      providiedTasks[index],
+                      tasks[index],
                       style: const TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
