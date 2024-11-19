@@ -16,6 +16,7 @@ class HomeScreen extends ConsumerStatefulWidget {
 class HomeScreenState extends ConsumerState<HomeScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   bool checkedValue = false;
+  bool _dailyStreak = false;
 
   //TODO Add functionality
   List<String> tasks = [
@@ -46,6 +47,14 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
     }
   }
 
+  Color _colorStreak() {
+    if (_dailyStreak) {
+      return const Color.fromARGB(255, 234, 102, 21);
+    } else {
+      return Colors.grey;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,12 +68,19 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
           fontWeight: FontWeight.bold,
         ),
         title: const Text('Home Screen'),
+        // leading: IconButton(
+        //   // icon: const Icon(Icons.adb),
+        //   icon: Image.asset('assets/icons/Chatbot_Icon.png'),
+        //   onPressed: () {
+        //     _scaffoldKey.currentState!.openDrawer();
+        //   },
+        // ),
         leading: IconButton(
-          // icon: const Icon(Icons.adb),
-          icon: Image.asset('assets/icons/Chatbot_Icon.png'),
-          onPressed: () {
-            _scaffoldKey.currentState!.openDrawer();
-          },
+          icon: Icon(
+            Icons.local_fire_department,
+            color: _colorStreak(),
+          ),
+          onPressed: () {},
         ),
       ),
       body: Container(
@@ -127,7 +143,14 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
             ),
             const SizedBox(height: 20),
             ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                if (!selectedItems.contains(false)) {
+                  Navigator.pushNamed(context, '/complete');
+                  setState(() {
+                    _dailyStreak = true;
+                  });
+                }
+              },
               style: ElevatedButton.styleFrom(
                 backgroundColor: _colorButton(),
                 foregroundColor: const Color.fromARGB(255, 43, 30, 30),
