@@ -41,6 +41,10 @@ Future<void> updateResponse() async {
   }
 }
 
+Future<Map<String, dynamic>> getResponse() async {
+  return responseData = json.decode((await http.get(firebaseUrl)).body);
+}
+
 //Function to update response
 //This needs to be future, since it's an async function... Neat
 //Super simple function to return a boolean if login is successful
