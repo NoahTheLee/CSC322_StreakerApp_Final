@@ -10,9 +10,6 @@ class TestingScreen2 extends StatefulWidget {
 
   final String uid = '-OBwH73--ukahPMF4pX-';
 
-  final Uri firebaseUrl = Uri.https(
-      'csc322-streaker-final-default-rtdb.firebaseio.com', 'Test.json');
-
   @override
   _TestingScreen2State createState() => _TestingScreen2State();
 }
@@ -25,6 +22,44 @@ class _TestingScreen2State extends State<TestingScreen2> {
   dispose() {
     taskName.dispose();
     super.dispose();
+  }
+
+  Future<Map<String, bool>> getTasks(String uid) async {
+    Map<String, dynamic> responseData = {};
+    late Map<String, bool> tasks = {};
+    //Reach out to Firebase
+    //Use UID to get the specific user's tasks
+    //Compile list
+    //Return list
+
+    //fullResponse should NEVER be used for anything at all ever since it's "junk" data
+
+    responseData = json.decode((await http.get(firebaseUrl))
+        .body); //Converts data into a KVP of KVPs (bruh)
+
+    for (final item in responseData.entries) {
+      if (item.key == uid) {
+        item.value['Data'].forEach((key, value) {
+          tasks[key] = value;
+        });
+      }
+    }
+
+    return tasks;
+  }
+
+  void addTask(String uid, String task) {
+    //Reach out to Firebase
+    //Use UID to get specific user's address of tasks
+    //Append task to list
+    //Return positive?
+  }
+
+  void removeTask(String uid, String task) {
+    //Reach out to Firebase
+    //Use UID to get specific user's address of tasks
+    //Remove task from list
+    //Return positive?
   }
 
   void setValues() {
@@ -117,16 +152,18 @@ class _TestingScreen2State extends State<TestingScreen2> {
               },
             ),
             TextButton(
-              onPressed: () {
-                setUsers();
+              onPressed: () async {
+                print(getTasks(widget.uid));
               },
               child: const Text('Check setting users'),
             ),
             TextButton(
-              onPressed: () {
-                findUser(widget.uid);
+              onPressed: () async {
+                print(
+                  (await getTasks(widget.uid),),
+                );
               },
-              child: const Text('Check finding user'),
+              child: const Text('Check data from Firebase'),
             ),
           ],
         ),
