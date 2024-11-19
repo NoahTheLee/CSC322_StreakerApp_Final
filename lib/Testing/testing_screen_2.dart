@@ -179,7 +179,7 @@ class _TestingScreen2State extends State<TestingScreen2> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Testing Screen 2'),
+        title: const Text('Testing Screen 2'),
       ),
       body: Center(
         child: Column(
