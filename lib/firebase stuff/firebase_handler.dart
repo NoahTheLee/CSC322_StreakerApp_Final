@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -126,32 +125,11 @@ void removeTask(String uid, String task) {
 }
 
 //Updating a task's status
-void updateTask(String uid, String task, BuildContext context) async {
+void updateTask(String uid, String task) async {
   //Reach out to Firebase
   //Use UID to get specific user's address of tasks
   //Update task in list
   //Return positive?
-
-  if (task.isEmpty || task == '') {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: const Text('No task Provided'),
-          content: const Text('Please provide a task to add.'),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text('OK'),
-            ),
-          ],
-        );
-      },
-    );
-    return;
-  }
 
   // Fetch the current value of the task
   final response = await http.get(
