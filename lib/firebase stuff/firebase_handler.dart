@@ -82,34 +82,22 @@ Future<Map<String, bool>> getTasks(String uid) async {
   return tasks;
 }
 
+Future<List<String>> getTaskNames(String uid) async {
+  final tasks = await getTasks(uid);
+  return tasks.keys.toList();
+}
+
+Future<List<bool>> getTaskStatuses(String uid) async {
+  final tasks = await getTasks(uid);
+  return tasks.values.toList();
+}
+
 //Adding a task to the user's list
-void addTask(String uid, String task, BuildContext context) async {
+void addTask(String uid, String task) async {
   //Reach out to Firebase
   //Use UID to get specific user's address of tasks
   //Append task to list
   //Return positive?
-
-  //Handle empty task, show dialogue, do not pass go, do not collect $200
-  if (task.isEmpty || task == '') {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: const Text('No task Provided'),
-          content: const Text('Please provide a task to add.'),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text('OK'),
-            ),
-          ],
-        );
-      },
-    );
-    return;
-  }
 
   http.patch(
     Uri.https('csc322-streaker-final-default-rtdb.firebaseio.com',
@@ -122,33 +110,11 @@ void addTask(String uid, String task, BuildContext context) async {
 }
 
 //Removing a task from the user's list
-void removeTask(String uid, String task, BuildContext context) {
+void removeTask(String uid, String task) {
   //Reach out to Firebase
   //Use UID to get specific user's address of tasks
   //Remove task from list
   //Return positive?
-
-  //Handle empty task, show dialogue, do not pass go, do not collect $200
-  if (task.isEmpty || task == '') {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: const Text('No task Provided'),
-          content: const Text('Please provide a task to add.'),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text('OK'),
-            ),
-          ],
-        );
-      },
-    );
-    return;
-  }
 
   http.delete(
     Uri.https('csc322-streaker-final-default-rtdb.firebaseio.com',
