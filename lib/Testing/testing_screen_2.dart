@@ -25,19 +25,13 @@ class _TestingScreen2State extends State<TestingScreen2> {
   }
 
   Future<Map<String, bool>> getTasks(String uid) async {
-    Map<String, dynamic> responseData = {};
     late Map<String, bool> tasks = {};
     //Reach out to Firebase
     //Use UID to get the specific user's tasks
     //Compile list
     //Return list
 
-    //fullResponse should NEVER be used for anything at all ever since it's "junk" data
-
-    responseData = json.decode((await http.get(firebaseUrl))
-        .body); //Converts data into a KVP of KVPs (bruh)
-
-    for (final item in responseData.entries) {
+    for (final item in (await getResponse()).entries) {
       if (item.key == uid) {
         item.value['Data'].forEach((key, value) {
           tasks[key] = value;
@@ -59,6 +53,13 @@ class _TestingScreen2State extends State<TestingScreen2> {
     //Reach out to Firebase
     //Use UID to get specific user's address of tasks
     //Remove task from list
+    //Return positive?
+  }
+
+  void updateTask(String uid, String task) {
+    //Reach out to Firebase
+    //Use UID to get specific user's address of tasks
+    //Update task in list
     //Return positive?
   }
 
