@@ -154,7 +154,7 @@ class HomeScreenState extends State<HomeScreen> {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                if (!selectedItems.contains(false)) {
+                if (!taskMap.containsValue(false)) {
                   Navigator.pushNamed(context, '/complete');
                   setState(() {
                     _dailyStreak = true;
