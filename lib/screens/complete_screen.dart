@@ -1,6 +1,8 @@
+import 'dart:convert';
+
 // import 'package:csc322_streaker_final/api/ai_image_api.py';
 import 'package:flutter/material.dart';
-// import 'package:http/http.dart' as http;
+import 'package:http/http.dart' as http;
 
 class CompleteScreen extends StatefulWidget {
   const CompleteScreen({super.key});
@@ -16,8 +18,15 @@ class CompleteScreenState extends State<CompleteScreen> {
   Widget build(BuildContext context) {
     final double imageWidth = MediaQuery.of(context).size.width;
     final double imageHeight = MediaQuery.of(context).size.height;
-    final String imageUrl =
-        'https://pollinations.ai/p/Generate_an_image_of_a_futuristic_rocket_ship_blasting_off?width=$imageWidth&height=$imageHeight&seed=702115403&model=flux';
+    final imageUrl = Uri.https(
+        'pollinations.ai', 
+        '/p/Generate_an_image_of_a_futuristic_rocket_ship_blasting_off', 
+        {
+          'width': '$imageWidth',
+          'height': '$imageHeight',
+          'seed': '702115403',
+          'model': 'flux'
+        }).toString();
     return Scaffold(
       body: Center(
         child: _isLoading

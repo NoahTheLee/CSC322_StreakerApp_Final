@@ -62,7 +62,7 @@ class CreditsScreenState extends State<CreditsScreen> {
               ),
             ),
             Text(
-              '> Lofi Hiphop Beats to Chill And Study To - Lifeline <\n\n',
+              '> Pollination AI - dynamic completion image<\n\n',
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 15,
