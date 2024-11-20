@@ -1,9 +1,10 @@
+import 'dart:async';
+
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:csc322_streaker_final/firebase%20stuff/firebase_handler.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class HomeScreen extends ConsumerStatefulWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key, required this.uid});
 
   final String uid;
@@ -12,7 +13,7 @@ class HomeScreen extends ConsumerStatefulWidget {
   HomeScreenState createState() => HomeScreenState();
 }
 
-class HomeScreenState extends ConsumerState<HomeScreen> {
+class HomeScreenState extends State<HomeScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   Map<String, bool> taskMap = {
@@ -24,8 +25,16 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
 
   @override
   initState() {
+    startTimer();
     getTaskMap();
     super.initState();
+  }
+
+  void startTimer() {
+    //TODO: make this just happen from navigator
+    Timer.periodic(const Duration(seconds: 2), (Timer timer) {
+      getTaskMap();
+    });
   }
 
   void getTaskMap() async {

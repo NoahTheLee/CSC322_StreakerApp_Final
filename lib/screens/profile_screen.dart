@@ -244,7 +244,7 @@ class ProfileScreenState extends ConsumerState<ProfileScreen> {
                     Icons.send,
                     color: Colors.white,
                   ),
-                )
+                ),
               ],
             ),
             /////////////////////////////////////////////////////////////////////////////////////
