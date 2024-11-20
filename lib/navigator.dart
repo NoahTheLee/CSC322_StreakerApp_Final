@@ -23,38 +23,18 @@ class HomePageState extends State<HomePage> {
   //Simple list to hold the screens themselves
   late List<Widget> _screens;
 
-  //List of tasks to complete
-  List<String> trackedTasks = [
-    'Task 1',
-    'Task 2',
-    'Task 3',
-    'Task 4',
-    'Task 5',
-    'Task 6',
-    'Task 7',
-    'Task 8',
-    'Task 9',
-    'Task 10',
-    'Task 11',
-    'Really really really really long ass task that has a lot of fatassery that I need to make sure doesn\'t overflow but it almost certianly will oh well',
-  ];
+  //TODO: Move tasks to navigator instead of profile and home independantly
 
   @override
   void initState() {
     super.initState();
     _screens = [
       const CreditsScreen(),
-      ProfileScreen(
-          uid: widget.uid, items: trackedTasks, removeItem: removeItem),
-      HomeScreen(uid: widget.uid, items: trackedTasks),
+      ProfileScreen(uid: widget.uid),
+      HomeScreen(uid: widget.uid),
       const NotificationsScreen(),
       const SettingsScreen(),
     ];
-  }
-
-  void removeItem(index) {
-    setState(() {});
-    trackedTasks.removeAt(index);
   }
 
   //Function to change the selected index

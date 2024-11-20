@@ -1,45 +1,52 @@
-import 'package:auto_size_text/auto_size_text.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'dart:async';
 
-class HomeScreen extends ConsumerStatefulWidget {
-  const HomeScreen({super.key, required this.uid, required this.items});
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:csc322_streaker_final/firebase%20stuff/firebase_handler.dart';
+import 'package:flutter/material.dart';
+
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key, required this.uid});
 
   final String uid;
-
-  final List<String> items;
 
   @override
   HomeScreenState createState() => HomeScreenState();
 }
 
-class HomeScreenState extends ConsumerState<HomeScreen> {
+class HomeScreenState extends State<HomeScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  bool checkedValue = false;
 
-  //TODO Add functionality
-  List<String> tasks = [
-    'Task 1',
-    'Task 2',
-    'Task 3',
-    'Task 4',
-    'Task 5',
-    'Task 6',
-    'Task 7',
-    'Task 8',
-    'Task 9',
-    'Task 10',
-  ];
+  Map<String, bool> taskMap = {
+    'Loading': false,
+    'Loading.': false,
+    'Loading..': false,
+    'Loading...': false,
+  };
 
-  List<bool> selectedItems = [];
-
+  @override
   initState() {
-    selectedItems = List<bool>.filled(tasks.length, false);
+    startTimer();
+    getTaskMap();
     super.initState();
   }
 
+  void startTimer() {
+    //TODO: make this just happen from navigator
+    Timer.periodic(const Duration(seconds: 2), (Timer timer) {
+      getTaskMap();
+    });
+  }
+
+  void getTaskMap() async {
+    await getTasks(widget.uid).then((value) {
+      setState(() {
+        taskMap = value;
+      });
+    });
+  }
+
   Color _colorButton() {
-    if (!selectedItems.contains(false)) {
+    if (!taskMap.containsValue(false)) {
       return const Color.fromARGB(255, 211, 47, 47);
     } else {
       return Colors.grey;
@@ -96,7 +103,7 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
             const SizedBox(height: 20),
             Expanded(
               child: ListView.builder(
-                itemCount: tasks.length,
+                itemCount: taskMap.length,
                 itemBuilder: (context, index) {
                   return CheckboxListTile(
                     controlAffinity: ListTileControlAffinity.leading,
@@ -104,7 +111,7 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
                         const EdgeInsets.only(left: 100, right: 100),
                     checkColor: Colors.white,
                     title: AutoSizeText(
-                      tasks[index],
+                      taskMap.keys.elementAt(index),
                       style: const TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
@@ -114,11 +121,12 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
                       softWrap: true,
                       maxLines: 4,
                     ),
-                    value: selectedItems[index],
+                    value: taskMap.values.elementAt(index),
                     onChanged: (bool? value) {
+                      updateTask(widget.uid, taskMap.keys.elementAt(index));
                       setState(() {
                         print('Selected Index: $index');
-                        selectedItems[index] = value ?? false;
+                        taskMap[taskMap.keys.elementAt(index)] = value!;
                       });
                     },
                   );

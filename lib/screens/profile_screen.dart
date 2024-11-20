@@ -3,17 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ProfileScreen extends ConsumerStatefulWidget {
-  const ProfileScreen(
-      {super.key,
-      required this.uid,
-      required this.items,
-      required this.removeItem});
+  const ProfileScreen({super.key, required this.uid});
 
   final String uid;
-
-  final List<String> items;
-
-  final Function(int) removeItem;
 
   @override
   ConsumerState<ProfileScreen> createState() {
@@ -252,7 +244,7 @@ class ProfileScreenState extends ConsumerState<ProfileScreen> {
                     Icons.send,
                     color: Colors.white,
                   ),
-                )
+                ),
               ],
             ),
             /////////////////////////////////////////////////////////////////////////////////////
