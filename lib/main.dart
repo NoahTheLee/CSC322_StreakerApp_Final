@@ -1,5 +1,6 @@
 import 'package:csc322_streaker_final/Testing/testing_screen.dart';
 import 'package:csc322_streaker_final/Testing/testing_screen_2.dart';
+import 'package:csc322_streaker_final/Testing/testing_screen_3.dart';
 import 'package:csc322_streaker_final/screens/complete_screen.dart';
 import 'package:csc322_streaker_final/screens/login pages/login_page.dart';
 import 'package:flutter/material.dart';
@@ -48,10 +49,8 @@ class MyHome extends StatefulWidget {
 class _MyHomeState extends State<MyHome> {
   bool isLoggedIn = false;
 
-  int testState = 0; //TODO: Remove this when testing is complete
-  // 1 = TestingScreen 2 = TestingScreen2
-  bool testingEnabled = false; //TODO: Remove this when testing is complete
-  bool testingEnabled2 = false; //TODO: Remove this when testing is complete
+  int testState = 3; //TODO: Remove this when testing is complete
+  // 1 = TestingScreen 2 = TestingScreen2 3 = TestingScreen3
 
   var uid = '';
 
@@ -69,19 +68,21 @@ class _MyHomeState extends State<MyHome> {
 
   @override
   Widget build(BuildContext context) {
-    if (testState == 1) {
-      testingEnabled = true;
-    } else if (testState == 2) {
-      testingEnabled = true;
-      testingEnabled2 = true;
-    }
-
-    return testingEnabled
-        ? testingEnabled2
-            ? TestingScreen2() //TODO: Remove this when testing is complete
-            : const TestingScreen() //TODO: Remove this when testing is complete
-        : isLoggedIn
+    switch (testState) {
+      case 0:
+        return isLoggedIn
             ? HomePage(uid: uid)
             : LoginPage(doLogin: doLogin, changeUid: updUid);
+      case 1:
+        return TestingScreen();
+      case 2:
+        return TestingScreen2();
+      case 3:
+        return TestingScreen3(); //TODO: Remove this when testing is complete
+    }
+
+    return const Center(
+      child: Text('uh oh\nsomething went wrong'),
+    );
   }
 }
