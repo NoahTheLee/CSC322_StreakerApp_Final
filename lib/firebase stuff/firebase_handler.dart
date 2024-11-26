@@ -156,7 +156,7 @@ void updateTask(String uid, String task) async {
   );
 }
 
-void incStreak(String uid) async {
+Future<void> incStreak(String uid) async {
   //Pull data from Firebase, targeting the streak counter the given user
   final response = await http.get(
     Uri.https('csc322-streaker-final-default-rtdb.firebaseio.com',
@@ -170,7 +170,7 @@ void incStreak(String uid) async {
   final currentStreak = json.decode(response.body);
 
   //Increment the streak counter by one
-  http.patch(
+  await http.patch(
     Uri.https(
         'csc322-streaker-final-default-rtdb.firebaseio.com', 'Users/$uid.json'),
     headers: {
@@ -180,9 +180,9 @@ void incStreak(String uid) async {
   );
 }
 
-void resetStreak(String uid) async {
+Future<void> resetStreak(String uid) async {
   //Don't care what value is stored, just want to wipe it to 0
-  http.patch(
+  await http.patch(
     Uri.https(
         'csc322-streaker-final-default-rtdb.firebaseio.com', 'Users/$uid.json'),
     headers: {
@@ -190,6 +190,23 @@ void resetStreak(String uid) async {
     },
     body: json.encode({'Streak': 0}),
   );
+}
+
+Future<int> getStreak(String uid) async {
+  //Pull data from Firebase, targeting the streak counter the given user
+  final response = await http.get(
+    Uri.https('csc322-streaker-final-default-rtdb.firebaseio.com',
+        'Users/$uid/Streak.json'),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  );
+
+  //Decode that value into an integer
+  final currentStreak = json.decode(response.body);
+
+  //Return the streak counter
+  return currentStreak;
 }
 
 // Function to compare two dates
