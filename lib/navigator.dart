@@ -1,4 +1,3 @@
-import 'package:csc322_streaker_final/firebase%20stuff/firebase_handler.dart';
 import 'package:csc322_streaker_final/screens/credits_screen.dart';
 import 'package:csc322_streaker_final/screens/home_screen.dart';
 import 'package:csc322_streaker_final/screens/notifications_screen.dart';
@@ -25,34 +24,17 @@ class HomePageState extends State<HomePage> {
   late List<Widget> _screens;
 
   //TODO: Move tasks to navigator instead of profile and home independantly
-  Map<String, bool> taskMap = {
-    'Loading': false,
-    'Loading.': false,
-    'Loading..': false,
-    'Loading...': false,
-  };
 
   @override
   void initState() {
     super.initState();
-    getTaskMap();
     _screens = [
       const CreditsScreen(),
       ProfileScreen(uid: widget.uid),
-      HomeScreen(uid: widget.uid, taskMap: taskMap, updateTaskMap: getTaskMap),
+      HomeScreen(uid: widget.uid),
       const NotificationsScreen(),
       const SettingsScreen(),
     ];
-  }
-
-  void getTaskMap() async {
-    print('taskMap pre-call: $taskMap');
-    await getTasks(widget.uid).then((value) {
-      setState(() {
-        taskMap = value;
-      });
-    });
-    print('taskMap post-call: $taskMap');
   }
 
   //Function to change the selected index

@@ -155,3 +155,91 @@ void updateTask(String uid, String task) async {
     body: json.encode({task: newValue ? true : false}),
   );
 }
+
+void incStreak(String uid) async {
+  //Pull data from Firebase, targeting the streak counter the given user
+  final response = await http.get(
+    Uri.https('csc322-streaker-final-default-rtdb.firebaseio.com',
+        'Users/$uid/Streak.json'),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  );
+
+  //Decode that value into an integer
+  final currentStreak = json.decode(response.body);
+
+  //Increment the streak counter by one
+  http.patch(
+    Uri.https(
+        'csc322-streaker-final-default-rtdb.firebaseio.com', 'Users/$uid.json'),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: json.encode({'Streak': currentStreak + 1}),
+  );
+}
+
+void resetStreak(String uid) async {
+  //Don't care what value is stored, just want to wipe it to 0
+  http.patch(
+    Uri.https(
+        'csc322-streaker-final-default-rtdb.firebaseio.com', 'Users/$uid.json'),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: json.encode({'Streak': 0}),
+  );
+}
+
+// Function to compare two dates
+bool hasExceededHours(DateTime storedDate, int hoursDifference) {
+  DateTime currentDate = DateTime.now();
+  Duration difference = currentDate.difference(storedDate);
+
+  // Check if the difference exceeds the given hours
+  return difference.inHours > hoursDifference;
+}
+
+// Sending the current date to uid
+void sendDate(String uid) async {
+  http.patch(
+    Uri.https(
+        'csc322-streaker-final-default-rtdb.firebaseio.com', 'Users/$uid.json'),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: json.encode({'Streak Last Updated': DateTime.now().toString()}),
+  );
+}
+
+// Pull date from uid
+Future<String> getDate(String uid) async {
+  final response = await http.get(
+    Uri.https('csc322-streaker-final-default-rtdb.firebaseio.com',
+        'Users/$uid/Streak Last Updated.json'),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  );
+
+  final storedDate = json.decode(response.body);
+
+  return storedDate;
+}
+
+//Compare stored date in uid to current date
+//Want to build this to have a hardcoded date difference so it is adjustable
+Future<bool> compareDates(String uid) async {
+  //Get the stored date
+  int hoursToCompare = 24;
+  String retrievedDate = await getDate(uid);
+  DateTime storedDate = DateTime.parse(retrievedDate);
+  if (hasExceededHours(storedDate, hoursToCompare)) {
+    //Return true
+    return true;
+  } else {
+    //Return false
+    return false;
+  }
+}

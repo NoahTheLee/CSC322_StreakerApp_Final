@@ -5,17 +5,9 @@ import 'package:csc322_streaker_final/firebase%20stuff/firebase_handler.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
-  HomeScreen(
-      {super.key,
-      required this.uid,
-      required this.taskMap,
-      required this.updateTaskMap});
+  const HomeScreen({super.key, required this.uid});
 
   final String uid;
-
-  Map<String, bool> taskMap;
-
-  final Function updateTaskMap;
 
   @override
   HomeScreenState createState() => HomeScreenState();
@@ -26,34 +18,37 @@ class HomeScreenState extends State<HomeScreen> {
   bool checkedValue = false;
   bool _dailyStreak = false;
 
+  Map<String, bool> taskMap = {
+    'Loading': false,
+    'Loading.': false,
+    'Loading..': false,
+    'Loading...': false,
+  };
+
   @override
   initState() {
-    // startTimer();
-    setState(() {
-      print('Setstating taskmap');
-      widget.updateTaskMap();
-    });
+    startTimer();
+    getTaskMap();
     super.initState();
-    print('TaskMap from Homescreen: ${widget.taskMap}');
   }
 
-  // void startTimer() {
-  //   //TODO: make this just happen from navigator
-  //   Timer.periodic(const Duration(seconds: 2), (Timer timer) {
-  //     getTaskMap();
-  //   });
-  // }
+  void startTimer() {
+    //TODO: make this just happen from navigator
+    Timer.periodic(const Duration(seconds: 2), (Timer timer) {
+      getTaskMap();
+    });
+  }
 
-  // void getTaskMap() async {
-  //   await getTasks(widget.uid).then((value) {
-  //     setState(() {
-  //       widget.taskMap = value;
-  //     });
-  //   });
-  // }
+  void getTaskMap() async {
+    await getTasks(widget.uid).then((value) {
+      setState(() {
+        taskMap = value;
+      });
+    });
+  }
 
   Color _colorButton() {
-    if (!widget.taskMap.containsValue(false)) {
+    if (!taskMap.containsValue(false)) {
       return const Color.fromARGB(255, 211, 47, 47);
     } else {
       return Colors.grey;
@@ -125,7 +120,7 @@ class HomeScreenState extends State<HomeScreen> {
             const SizedBox(height: 20),
             Expanded(
               child: ListView.builder(
-                itemCount: widget.taskMap.length,
+                itemCount: taskMap.length,
                 itemBuilder: (context, index) {
                   return CheckboxListTile(
                     controlAffinity: ListTileControlAffinity.leading,
@@ -133,7 +128,7 @@ class HomeScreenState extends State<HomeScreen> {
                         const EdgeInsets.only(left: 100, right: 100),
                     checkColor: Colors.white,
                     title: AutoSizeText(
-                      widget.taskMap.keys.elementAt(index),
+                      taskMap.keys.elementAt(index),
                       style: const TextStyle(
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
@@ -143,14 +138,12 @@ class HomeScreenState extends State<HomeScreen> {
                       softWrap: true,
                       maxLines: 4,
                     ),
-                    value: widget.taskMap.values.elementAt(index),
+                    value: taskMap.values.elementAt(index),
                     onChanged: (bool? value) {
-                      updateTask(
-                          widget.uid, widget.taskMap.keys.elementAt(index));
+                      updateTask(widget.uid, taskMap.keys.elementAt(index));
                       setState(() {
                         print('Selected Index: $index');
-                        widget.taskMap[widget.taskMap.keys.elementAt(index)] =
-                            value!;
+                        taskMap[taskMap.keys.elementAt(index)] = value!;
                       });
                     },
                   );
@@ -160,7 +153,7 @@ class HomeScreenState extends State<HomeScreen> {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: () {
-                if (!widget.taskMap.containsValue(false)) {
+                if (!taskMap.containsValue(false)) {
                   Navigator.pushNamed(context, '/complete');
                   setState(() {
                     _dailyStreak = true;
