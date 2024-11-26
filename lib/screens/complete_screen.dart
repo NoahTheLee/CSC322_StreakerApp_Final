@@ -22,6 +22,13 @@ class CompleteScreenState extends State<CompleteScreen> {
     _loadImage();
   }
 
+  int getRandomSeed(Random rand) {
+    return int.parse(rand.nextDouble().toString().substring(2)) +
+        int.parse(
+            ((DateTime.now().toString()).replaceAll(RegExp(r'[^0-9]'), ''))
+                .substring(8));
+  }
+
   Future<void> _loadImage() async {
     const prompt = 'Generate_an_image_of_a_futuristic_rocket_ship_blasting_off';
     const width = 360;
@@ -29,7 +36,7 @@ class CompleteScreenState extends State<CompleteScreen> {
     const model = 'flux';
 
     final random = Random();
-    final seed = random.nextInt(900000000) + 100000000; //TODO: This should be set once per day
+    final seed = getRandomSeed(random);
 
     final imageUrl = generateImageUrl(
       prompt: prompt,

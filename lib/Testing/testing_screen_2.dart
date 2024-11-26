@@ -1,3 +1,4 @@
+// ignore_for_file: avoid_print
 import 'dart:convert';
 
 import 'package:csc322_streaker_final/firebase%20stuff/firebase_handler.dart';
@@ -5,15 +6,15 @@ import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 
 class TestingScreen2 extends StatefulWidget {
-  TestingScreen2({super.key});
+  const TestingScreen2({super.key});
 
   final String uid = '-OBwH73--ukahPMF4pX-';
 
   @override
-  _TestingScreen2State createState() => _TestingScreen2State();
+  TestingScreen2State createState() => TestingScreen2State();
 }
 
-class _TestingScreen2State extends State<TestingScreen2> {
+class TestingScreen2State extends State<TestingScreen2> {
   final TextEditingController taskName = TextEditingController();
   var task = '';
 

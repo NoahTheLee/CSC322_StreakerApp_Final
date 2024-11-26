@@ -23,8 +23,6 @@ class HomePageState extends State<HomePage> {
   //Simple list to hold the screens themselves
   late List<Widget> _screens;
 
-  //TODO: Move tasks to navigator instead of profile and home independantly
-
   @override
   void initState() {
     super.initState();

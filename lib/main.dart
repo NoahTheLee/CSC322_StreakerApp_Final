@@ -4,15 +4,12 @@ import 'package:csc322_streaker_final/Testing/testing_screen_3.dart';
 import 'package:csc322_streaker_final/screens/complete_screen.dart';
 import 'package:csc322_streaker_final/screens/login pages/login_page.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:csc322_streaker_final/navigator.dart';
 
 void main() {
   runApp(
-    const ProviderScope(
-      child: MyApp(),
-    ),
+    const MyApp(),
   );
 }
 
@@ -21,20 +18,17 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ProviderScope(
-      // Wrap your entire app in ProviderScope
-      child: MaterialApp(
-        routes: {
-          '/complete': (context) => const CompleteScreen(),
-          // '/home': (context) => const HomeScreen(),
-        },
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          scaffoldBackgroundColor: Colors.black,
-          primarySwatch: Colors.blue,
-        ),
-        home: const MyHome(), // Home page remains as is
+    return MaterialApp(
+      routes: {
+        '/complete': (context) => const CompleteScreen(),
+        // '/home': (context) => const HomeScreen(),
+      },
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        scaffoldBackgroundColor: Colors.black,
+        primarySwatch: Colors.blue,
       ),
+      home: const MyHome(), // Home page remains as is
     );
   }
 }
@@ -74,11 +68,11 @@ class _MyHomeState extends State<MyHome> {
             ? HomePage(uid: uid)
             : LoginPage(doLogin: doLogin, changeUid: updUid);
       case 1:
-        return TestingScreen();
+        return const TestingScreen();
       case 2:
-        return TestingScreen2();
+        return const TestingScreen2();
       case 3:
-        return TestingScreen3(); //TODO: Remove this when testing is complete
+        return const TestingScreen3(); //TODO: Remove this when testing is complete
     }
 
     return const Center(
