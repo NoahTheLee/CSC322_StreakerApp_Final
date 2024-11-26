@@ -189,7 +189,7 @@ class HomeScreenState extends State<HomeScreen> {
                   }
 
                   //TODO: Temporarily disable screen pushing
-                  // Navigator.pushNamed(context, '/complete');
+                  Navigator.pushNamed(context, '/complete');
                   setState(() {
                     _dailyStreak = true;
                   });
