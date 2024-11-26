@@ -18,6 +18,7 @@ class HomeScreenState extends State<HomeScreen> {
   bool checkedValue = false;
   bool _dailyStreak = false;
   dynamic streakCounter = 'Loading...';
+  final String message = 'Dont let your streak die!';
 
   Map<String, bool> taskMap = {
     'Loading...': false,

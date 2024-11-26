@@ -1,6 +1,7 @@
 import 'package:csc322_streaker_final/Testing/testing_screen.dart';
 import 'package:csc322_streaker_final/Testing/testing_screen_2.dart';
 import 'package:csc322_streaker_final/Testing/testing_screen_3.dart';
+import 'package:csc322_streaker_final/notifications.dart';
 import 'package:csc322_streaker_final/screens/complete_screen.dart';
 import 'package:csc322_streaker_final/screens/login pages/login_page.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +9,13 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:csc322_streaker_final/navigator.dart';
 
-void main() {
+import 'package:timezone/data/latest.dart' as tz;
+
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await NotificationService.init();
+  tz.initializeTimeZones();
+
   runApp(
     const ProviderScope(
       child: MyApp(),
