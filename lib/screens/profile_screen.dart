@@ -1,19 +1,18 @@
 import 'package:csc322_streaker_final/firebase%20stuff/firebase_handler.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class ProfileScreen extends ConsumerStatefulWidget {
+class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key, required this.uid});
 
   final String uid;
 
   @override
-  ConsumerState<ProfileScreen> createState() {
+  State<ProfileScreen> createState() {
     return ProfileScreenState();
   }
 }
 
-class ProfileScreenState extends ConsumerState<ProfileScreen> {
+class ProfileScreenState extends State<ProfileScreen> {
   final String _banner = 'assets/defaults/Default_Banner.png';
   final String _profile = 'assets/defaults/Default_Profile_Picture.png';
   String _username = ''; //Temporary Username
