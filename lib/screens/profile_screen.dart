@@ -125,7 +125,6 @@ class ProfileScreenState extends State<ProfileScreen> {
                           ),
                           onDismissed: (direction) {
                             //Get rid of the thing
-                            //TODO: Remove from database
                             removeTask(widget.uid, tasks[index]);
                             setState(() {
                               tasks.removeAt(index);

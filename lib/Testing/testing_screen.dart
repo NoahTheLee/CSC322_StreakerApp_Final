@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:csc322_streaker_final/firebase%20stuff/firebase_handler.dart';
 import 'package:flutter/material.dart';
 
@@ -11,10 +13,10 @@ class TestingScreen extends StatefulWidget {
   final String uid = '-OBEdvzL_pyEWsEPQP_w';
 
   @override
-  _TestingScreenState createState() => _TestingScreenState();
+  TestingScreenState createState() => TestingScreenState();
 }
 
-class _TestingScreenState extends State<TestingScreen> {
+class TestingScreenState extends State<TestingScreen> {
   //Handling text input
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -107,15 +109,12 @@ class _TestingScreenState extends State<TestingScreen> {
 
                 print(json.decode(response.body)['name']);
                 //Returns "name": "-key" if successful as well
-                //TODO: Store this permanently per-instance?
               },
               child: const Text('Send data to Firebase'),
             ),
             //Get data from Firebase
             TextButton(
               onPressed: () async {
-                //TODO: Need loading method to fetch data
-
                 //Function needs to await, since it returns a future
                 await updateResponse();
                 print('Raw data: $responseData');
@@ -131,13 +130,6 @@ class _TestingScreenState extends State<TestingScreen> {
             TextButton(
               onPressed: () async {
                 setValues();
-
-                print('Email: $email');
-                print('Password: $password');
-
-                print(await checkLogin(email, password)
-                    ? 'Login successful'
-                    : 'Login failed');
                 getuid();
               },
               child: const Text('Check Data'),
@@ -145,8 +137,6 @@ class _TestingScreenState extends State<TestingScreen> {
             TextButton(
                 onPressed: () async {
                   await updateResponse();
-                  print(widget.uid);
-                  print(usernames[keys.indexOf(widget.uid)]);
                 },
                 child: const Text('Print Data')),
           ],

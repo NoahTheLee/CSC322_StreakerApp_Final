@@ -40,7 +40,6 @@ class HomeScreenState extends State<HomeScreen> {
   }
 
   void startTimer() {
-    //TODO: make this just happen from navigator
     Timer.periodic(const Duration(seconds: 2), (Timer timer) {
       getTaskMap();
     });
@@ -160,7 +159,6 @@ class HomeScreenState extends State<HomeScreen> {
                     onChanged: (bool? value) {
                       updateTask(widget.uid, taskMap.keys.elementAt(index));
                       setState(() {
-                        print('Selected Index: $index');
                         taskMap[taskMap.keys.elementAt(index)] = value!;
                       });
                     },
@@ -181,14 +179,12 @@ class HomeScreenState extends State<HomeScreen> {
                       setStreakCount();
                     });
                   } else {
-                    print('Streak has been reset');
                     await resetStreak(widget.uid);
                     setState(() {
                       setStreakCount();
                     });
                   }
 
-                  //TODO: Temporarily disable screen pushing
                   Navigator.pushNamed(context, '/complete');
                   setState(() {
                     _dailyStreak = true;

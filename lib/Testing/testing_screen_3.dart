@@ -1,17 +1,18 @@
+// ignore_for_file: avoid_print
+
 import 'dart:convert';
-import 'dart:math';
 
 import 'package:csc322_streaker_final/firebase%20stuff/firebase_handler.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 
 class TestingScreen3 extends StatefulWidget {
-  TestingScreen3({super.key});
+  const TestingScreen3({super.key});
 
   final String uid = '-OBwH73--ukahPMF4pX-';
 
   @override
-  _TestingScreen3State createState() => _TestingScreen3State();
+  TestingScreen3State createState() => TestingScreen3State();
 }
 
 //Used only once to send a streak counter
@@ -26,7 +27,7 @@ void tempSend(String uid) async {
   );
 }
 
-class _TestingScreen3State extends State<TestingScreen3> {
+class TestingScreen3State extends State<TestingScreen3> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

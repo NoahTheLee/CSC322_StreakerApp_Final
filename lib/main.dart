@@ -9,7 +9,7 @@ import 'package:csc322_streaker_final/navigator.dart';
 
 void main() {
   runApp(
-    MyApp(),
+    const MyApp(),
   );
 }
 
@@ -68,11 +68,11 @@ class _MyHomeState extends State<MyHome> {
             ? HomePage(uid: uid)
             : LoginPage(doLogin: doLogin, changeUid: updUid);
       case 1:
-        return TestingScreen();
+        return const TestingScreen();
       case 2:
-        return TestingScreen2();
+        return const TestingScreen2();
       case 3:
-        return TestingScreen3(); //TODO: Remove this when testing is complete
+        return const TestingScreen3(); //TODO: Remove this when testing is complete
     }
 
     return const Center(

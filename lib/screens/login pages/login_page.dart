@@ -25,9 +25,6 @@ class LoginPageState extends State<LoginPage> {
 
   _changeUid(String email) {
     String newUid = keys[emails.indexOf(email)];
-
-    print('New UID: $newUid'); //TODO: remove this when testing is done
-
     widget.changeUid(newUid);
   }
 
@@ -63,7 +60,6 @@ class LoginPageState extends State<LoginPage> {
 
   void forceLogin() async {
     //TODO: Remove this function when testing is complete
-    print('Forcing login as testuser...');
 
     setValues();
 
