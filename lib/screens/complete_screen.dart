@@ -27,7 +27,6 @@ class CompleteScreenState extends State<CompleteScreen> {
         int.parse(
             ((DateTime.now().toString()).replaceAll(RegExp(r'[^0-9]'), ''))
                 .substring(8));
-    ;
   }
 
   Future<void> _loadImage() async {
