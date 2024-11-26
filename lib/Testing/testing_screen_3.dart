@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:csc322_streaker_final/firebase%20stuff/firebase_handler.dart';
 import 'package:http/http.dart' as http;
@@ -118,32 +119,21 @@ class _TestingScreen3State extends State<TestingScreen3> {
                         : 'Is not over 24 hours of difference');
                   },
                 ),
-                ListTile(
-                  title: const Text(
-                    'Empty Tile 3',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  onTap: () {
-                    // Add your onTap code here
-                  },
-                ),
               ],
             ),
             //Empty Expansion Tile
             ExpansionTile(
               title: const Text(
-                'emepty',
+                'Miscellaneous',
                 style: TextStyle(color: Colors.white),
               ),
               children: <Widget>[
                 ListTile(
                   title: const Text(
-                    'nothing',
+                    'Strip numbers from string',
                     style: TextStyle(color: Colors.white),
                   ),
-                  onTap: () {
-                    // Add your onTap code here
-                  },
+                  onTap: () {},
                 ),
                 ListTile(
                   title: const Text(
