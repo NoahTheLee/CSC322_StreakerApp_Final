@@ -17,11 +17,9 @@ class HomeScreenState extends State<HomeScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   bool checkedValue = false;
   bool _dailyStreak = false;
+  dynamic streakCounter = 'Loading...';
 
   Map<String, bool> taskMap = {
-    'Loading': false,
-    'Loading.': false,
-    'Loading..': false,
     'Loading...': false,
   };
 
@@ -29,7 +27,16 @@ class HomeScreenState extends State<HomeScreen> {
   initState() {
     startTimer();
     getTaskMap();
+    setStreakCount();
     super.initState();
+  }
+
+  void setStreakCount() {
+    getStreak(widget.uid).then((value) {
+      setState(() {
+        streakCounter = value;
+      });
+    });
   }
 
   void startTimer() {
@@ -68,29 +75,6 @@ class HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       key: _scaffoldKey,
       drawer: const Drawer(),
-      appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 0, 0, 65),
-        titleTextStyle: const TextStyle(
-          color: Colors.white,
-          fontSize: 20,
-          fontWeight: FontWeight.bold,
-        ),
-        title: const Text('Home Screen'),
-        // leading: IconButton(
-        //   // icon: const Icon(Icons.adb),
-        //   icon: Image.asset('assets/icons/Chatbot_Icon.png'),
-        //   onPressed: () {
-        //     _scaffoldKey.currentState!.openDrawer();
-        //   },
-        // ),
-        leading: IconButton(
-          icon: Icon(
-            Icons.local_fire_department,
-            color: _colorStreak(),
-          ),
-          onPressed: () {},
-        ),
-      ),
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
@@ -101,6 +85,40 @@ class HomeScreenState extends State<HomeScreen> {
         ),
         child: Column(
           children: [
+            SafeArea(
+              child: Container(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    // Leading section: Icon and counter
+                    Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          Icons.local_fire_department,
+                          color: _colorStreak(), // Custom color function
+                          size: 28,
+                        ),
+                        const SizedBox(
+                            width: 4), // Spacing between icon and number
+                        Text(
+                          streakCounter
+                              .toString(), // Replace with your dynamic value
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
             Center(
               child: Stack(
                 children: [
@@ -152,12 +170,31 @@ class HomeScreenState extends State<HomeScreen> {
             ),
             const SizedBox(height: 20),
             ElevatedButton(
-              onPressed: () {
+              onPressed: () async {
                 if (!taskMap.containsValue(false)) {
-                  Navigator.pushNamed(context, '/complete');
+                  //handle comparisons
+
+                  //Check stored date against current date
+                  if (!await compareDates(widget.uid)) {
+                    await incStreak(widget.uid);
+                    setState(() {
+                      setStreakCount();
+                    });
+                  } else {
+                    print('Streak has been reset');
+                    await resetStreak(widget.uid);
+                    setState(() {
+                      setStreakCount();
+                    });
+                  }
+
+                  //TODO: Temporarily disable screen pushing
+                  // Navigator.pushNamed(context, '/complete');
                   setState(() {
                     _dailyStreak = true;
                   });
+                  //This can be called after the setState, since all it does is update the streak on Firebase
+                  sendDate(widget.uid);
                 }
               },
               style: ElevatedButton.styleFrom(
