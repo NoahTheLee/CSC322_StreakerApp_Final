@@ -91,6 +91,25 @@ Future<List<bool>> getTaskStatuses(String uid) async {
   return tasks.values.toList();
 }
 
+void resetTasks(String uid) async {
+  //Reach out to Firebase
+  //Use UID to get specific user's address of tasks
+  //Set status of all tasks to false
+
+  //Well that went well
+
+  for (final task in await getTaskNames(uid)) {
+    await http.patch(
+      Uri.https('csc322-streaker-final-default-rtdb.firebaseio.com',
+          'Users/$uid/Data.json'),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: json.encode({task: false}),
+    );
+  }
+}
+
 //Adding a task to the user's list
 void addTask(String uid, String task) async {
   //Reach out to Firebase

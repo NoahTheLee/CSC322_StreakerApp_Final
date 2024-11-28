@@ -191,6 +191,7 @@ class HomeScreenState extends State<HomeScreen> {
                   });
                   //This can be called after the setState, since all it does is update the streak on Firebase
                   sendDate(widget.uid);
+                  resetTasks(widget.uid);
                 }
               },
               style: ElevatedButton.styleFrom(
