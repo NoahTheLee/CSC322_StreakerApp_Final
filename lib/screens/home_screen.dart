@@ -19,15 +19,21 @@ class HomeScreenState extends State<HomeScreen> {
   bool _dailyStreak = false;
   dynamic streakCounter = 'Loading...';
 
+  String timerText = 'Loading...';
+
   Map<String, bool> taskMap = {
     'Loading...': false,
   };
+
+  bool mapEmpty = false;
 
   @override
   initState() {
     startTimer();
     getTaskMap();
     setStreakCount();
+    checkEmpty();
+    updateTimer();
     super.initState();
   }
 
@@ -42,6 +48,28 @@ class HomeScreenState extends State<HomeScreen> {
   void startTimer() {
     Timer.periodic(const Duration(seconds: 2), (Timer timer) {
       getTaskMap();
+      updateTimer();
+      checkEmpty();
+    });
+  }
+
+  void checkEmpty() {
+    if (taskMap.isEmpty) {
+      setState(() {
+        mapEmpty = true;
+      });
+    } else {
+      setState(() {
+        mapEmpty = false;
+      });
+    }
+  }
+
+  void updateTimer() async {
+    timeUntil24Hours(widget.uid).then((value) {
+      setState(() {
+        timerText = value;
+      });
     });
   }
 
@@ -93,27 +121,29 @@ class HomeScreenState extends State<HomeScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     // Leading section: Icon and counter
-                    Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(
-                          Icons.local_fire_department,
-                          color: _colorStreak(), // Custom color function
-                          size: 28,
-                        ),
-                        const SizedBox(
-                            width: 4), // Spacing between icon and number
-                        Text(
-                          streakCounter
-                              .toString(), // Replace with your dynamic value
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
+                    Icon(
+                      Icons.local_fire_department,
+                      color: _colorStreak(), // Custom color function
+                      size: 28,
                     ),
+                    const SizedBox(width: 4),
+                    Text(
+                      streakCounter.toString(),
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Expanded(
+                      child: Container(),
+                    ),
+                    Text('Time until streak reset: $timerText',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        )),
                   ],
                 ),
               ),
@@ -136,35 +166,55 @@ class HomeScreenState extends State<HomeScreen> {
             ),
             const SizedBox(height: 20),
             Expanded(
-              child: ListView.builder(
-                itemCount: taskMap.length,
-                itemBuilder: (context, index) {
-                  return CheckboxListTile(
-                    controlAffinity: ListTileControlAffinity.leading,
-                    contentPadding:
-                        const EdgeInsets.only(left: 100, right: 100),
-                    checkColor: Colors.white,
-                    title: AutoSizeText(
-                      taskMap.keys.elementAt(index),
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      minFontSize: 10,
-                      maxFontSize: 20,
-                      softWrap: true,
-                      maxLines: 4,
+              child: mapEmpty
+                  ? const Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.inbox,
+                          color: Colors.white,
+                          size: 50,
+                        ),
+                        SizedBox(height: 10),
+                        Text(
+                          'Add tasks to get started!',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                          ),
+                        ),
+                      ],
+                    )
+                  : ListView.builder(
+                      itemCount: taskMap.length,
+                      itemBuilder: (context, index) {
+                        return CheckboxListTile(
+                          controlAffinity: ListTileControlAffinity.leading,
+                          contentPadding:
+                              const EdgeInsets.only(left: 100, right: 100),
+                          checkColor: Colors.white,
+                          title: AutoSizeText(
+                            taskMap.keys.elementAt(index),
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            minFontSize: 10,
+                            maxFontSize: 20,
+                            softWrap: true,
+                            maxLines: 4,
+                          ),
+                          value: taskMap.values.elementAt(index),
+                          onChanged: (bool? value) {
+                            updateTask(
+                                widget.uid, taskMap.keys.elementAt(index));
+                            setState(() {
+                              taskMap[taskMap.keys.elementAt(index)] = value!;
+                            });
+                          },
+                        );
+                      },
                     ),
-                    value: taskMap.values.elementAt(index),
-                    onChanged: (bool? value) {
-                      updateTask(widget.uid, taskMap.keys.elementAt(index));
-                      setState(() {
-                        taskMap[taskMap.keys.elementAt(index)] = value!;
-                      });
-                    },
-                  );
-                },
-              ),
             ),
             const SizedBox(height: 20),
             ElevatedButton(
@@ -191,6 +241,7 @@ class HomeScreenState extends State<HomeScreen> {
                   });
                   //This can be called after the setState, since all it does is update the streak on Firebase
                   sendDate(widget.uid);
+                  resetTasks(widget.uid);
                 }
               },
               style: ElevatedButton.styleFrom(

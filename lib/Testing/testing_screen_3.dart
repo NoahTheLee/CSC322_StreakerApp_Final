@@ -138,11 +138,11 @@ class TestingScreen3State extends State<TestingScreen3> {
                 ),
                 ListTile(
                   title: const Text(
-                    'nothing',
+                    'Reset Tasks',
                     style: TextStyle(color: Colors.white),
                   ),
                   onTap: () {
-                    // Add your onTap code here
+                    resetTasks(widget.uid);
                   },
                 ),
               ],
