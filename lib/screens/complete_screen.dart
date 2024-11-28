@@ -23,10 +23,12 @@ class CompleteScreenState extends State<CompleteScreen> {
   }
 
   int getRandomSeed(Random rand) {
-    return int.parse(rand.nextDouble().toString().substring(2)) +
+    var randVal = int.parse(rand.nextDouble().toString().substring(2)) +
         int.parse(
             ((DateTime.now().toString()).replaceAll(RegExp(r'[^0-9]'), ''))
                 .substring(8));
+    randVal = randVal % 100000;
+    return randVal;
   }
 
   Future<void> _loadImage() async {
