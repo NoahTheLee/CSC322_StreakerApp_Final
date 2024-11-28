@@ -19,6 +19,8 @@ class HomeScreenState extends State<HomeScreen> {
   bool _dailyStreak = false;
   dynamic streakCounter = 'Loading...';
 
+  String timerText = 'Loading...';
+
   Map<String, bool> taskMap = {
     'Loading...': false,
   };
@@ -28,6 +30,7 @@ class HomeScreenState extends State<HomeScreen> {
     startTimer();
     getTaskMap();
     setStreakCount();
+    updateTimer();
     super.initState();
   }
 
@@ -42,6 +45,15 @@ class HomeScreenState extends State<HomeScreen> {
   void startTimer() {
     Timer.periodic(const Duration(seconds: 2), (Timer timer) {
       getTaskMap();
+      updateTimer();
+    });
+  }
+
+  void updateTimer() async {
+    timeUntil24Hours(widget.uid).then((value) {
+      setState(() {
+        timerText = value;
+      });
     });
   }
 
@@ -93,27 +105,30 @@ class HomeScreenState extends State<HomeScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     // Leading section: Icon and counter
-                    Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(
-                          Icons.local_fire_department,
-                          color: _colorStreak(), // Custom color function
-                          size: 28,
-                        ),
-                        const SizedBox(
-                            width: 4), // Spacing between icon and number
-                        Text(
-                          streakCounter
-                              .toString(), // Replace with your dynamic value
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                      ],
+                    Icon(
+                      Icons.local_fire_department,
+                      color: _colorStreak(), // Custom color function
+                      size: 28,
                     ),
+                    const SizedBox(width: 4), // Spacing between icon and number
+                    Text(
+                      streakCounter
+                          .toString(), // Replace with your dynamic value
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Expanded(
+                      child: Container(),
+                    ),
+                    Text('Time until streak reset: $timerText',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        )),
                   ],
                 ),
               ),

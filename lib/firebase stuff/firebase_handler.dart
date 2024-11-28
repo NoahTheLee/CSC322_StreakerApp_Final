@@ -264,6 +264,35 @@ Future<String> getDate(String uid) async {
   return storedDate;
 }
 
+Future<String> timeUntil24Hours(String uid) async {
+  //Copilot my king :pray:
+  // Retrieve the stored date from Firebase
+  String retrievedDate = await getDate(
+      uid); // Ensure getDate is implemented to fetch from Firebase
+  DateTime storedDate = DateTime.parse(retrievedDate);
+
+  // Get the current date and time
+  DateTime currentDate = DateTime.now();
+
+  // Calculate when 24 hours have passed since the stored date
+  DateTime targetDate = storedDate.add(Duration(hours: 24));
+
+  // Find the difference between the target date and the current date
+  Duration timeRemaining = targetDate.difference(currentDate);
+
+  // Ensure the time is not negative
+  if (timeRemaining.isNegative) {
+    return "00:00:00"; // Return 0 if 24 hours have already passed
+  }
+
+  // Format the remaining time as HH:mm:ss
+  int hours = timeRemaining.inHours;
+  int minutes = timeRemaining.inMinutes % 60;
+  int seconds = timeRemaining.inSeconds % 60;
+
+  return "${hours.toString().padLeft(2, '0')}:${minutes.toString().padLeft(2, '0')}:${seconds.toString().padLeft(2, '0')}";
+}
+
 //Compare stored date in uid to current date
 //Want to build this to have a hardcoded date difference so it is adjustable
 Future<bool> compareDates(String uid) async {
