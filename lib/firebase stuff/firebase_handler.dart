@@ -70,12 +70,16 @@ Future<Map<String, bool>> getTasks(String uid) async {
   //Return list
 
   //TODO: This might brick, do testing later
-  for (final item in (await getResponse()).entries) {
-    if (item.key == uid) {
-      item.value['Data'].forEach((key, value) {
-        tasks[key] = value;
-      });
+  try {
+    for (final item in (await getResponse()).entries) {
+      if (item.key == uid) {
+        item.value['Data'].forEach((key, value) {
+          tasks[key] = value;
+        });
+      }
     }
+  } catch (e) {
+    tasks = {};
   }
 
   return tasks;
@@ -265,7 +269,7 @@ Future<String> getDate(String uid) async {
 }
 
 Future<String> timeUntil24Hours(String uid) async {
-  //Copilot my king :pray:
+  //Copilot my king :pray: :pray: :pray:
   // Retrieve the stored date from Firebase
   String retrievedDate = await getDate(
       uid); // Ensure getDate is implemented to fetch from Firebase
