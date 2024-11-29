@@ -36,6 +36,8 @@ class LoginPageState extends State<LoginPage> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _passwordMatchingController =
       TextEditingController();
+
+  //Boolean to handle password visibility, passed through to sign in and sign up
   bool _passwordVisible = true;
 
   //empty variables for email and password
@@ -47,11 +49,8 @@ class LoginPageState extends State<LoginPage> {
   var password = '';
   var username = '';
 
-  //Firebase URL
-  //Formatted as Uri.https('link', 'path.json')
-
   void setValues() {
-    //Update values of email, password, and username
+    //Update values of email, password, password checker, and username
     email = _emailController.text;
     password = _passwordController.text;
     checkPassword = _passwordMatchingController.text;
@@ -73,10 +72,9 @@ class LoginPageState extends State<LoginPage> {
   }
 
   void signUserIn() async {
-    //Empty placeholder to print values to the debug console.
-    //Later, this should check firebase for login status
     setValues();
 
+    //Do a bunch of checks on input data to make sure it's valid
     if (email.isEmpty) {
       signingDataError('Email is required.');
       return;
@@ -97,6 +95,7 @@ class LoginPageState extends State<LoginPage> {
     }
   }
 
+  //Simple function to display error message, dependant on error. Used in multiple places
   Future signingDataError(String errMessage) {
     return showDialog(
       context: context,
