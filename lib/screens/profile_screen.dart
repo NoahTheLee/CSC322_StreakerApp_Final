@@ -69,7 +69,7 @@ class ProfileScreenState extends State<ProfileScreen> {
               ///////////////////////////////Banner Picture Location///////////////////////////
               children: [
                 const SizedBox(
-                  height: 300,
+                  height: 255,
                   width: double.infinity,
                 ),
                 Image.asset(
@@ -94,23 +94,18 @@ class ProfileScreenState extends State<ProfileScreen> {
                 ),
                 ////////////////////////////////////////////////////////////////////////////////
                 /////////////////////////////Username Location//////////////////////////////////
-                Positioned(
-                  bottom: 10,
-                  left: MediaQuery.sizeOf(context).width / 2 -
-                      _username.length * 9,
-                  child: Text(
-                    _username, //Temporary Username
-                    style: const TextStyle(
-                      color: Color.fromARGB(255, 221, 218, 255),
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                )
                 ////////////////////////////////////////////////////////////////////////////////
               ],
             ),
             //////////////////////////////Items to Track Title//////////////////////////////////
+            Text(
+              _username, //Temporary Username
+              style: const TextStyle(
+                color: Color.fromARGB(255, 221, 218, 255),
+                fontSize: 30,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
             const SizedBox(height: 20),
             const Text(
               'Your Items to Track',
@@ -200,10 +195,11 @@ class ProfileScreenState extends State<ProfileScreen> {
                       ],
                     ),
             ),
-
             ////////////////////////////////////////////////////////////////////////////////////
             //////////////////////////////Add New Item//////////////////////////////////////////
-            const SizedBox(height: 10),
+            Expanded(
+              child: Container(),
+            ),
             Row(
               children: [
                 Expanded(
