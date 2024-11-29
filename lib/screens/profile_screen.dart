@@ -50,7 +50,7 @@ class ProfileScreenState extends State<ProfileScreen> {
   }
 
   void setTaskNames() async {
-    await getTaskNames(widget.uid).then((value) {
+    await getTaskNames(uid: widget.uid, context: context).then((value) {
       setState(() {
         tasks = value;
       });
@@ -154,7 +154,10 @@ class ProfileScreenState extends State<ProfileScreen> {
                                 ),
                                 onDismissed: (direction) {
                                   //Get rid of the thing
-                                  removeTask(widget.uid, tasks[index]);
+                                  removeTask(
+                                      uid: widget.uid,
+                                      task: tasks[index],
+                                      context: context);
                                   setState(() {
                                     tasks.removeAt(index);
                                   });
@@ -265,7 +268,8 @@ class ProfileScreenState extends State<ProfileScreen> {
                       return;
                     }
                     _taskName.clear();
-                    await addTask(widget.uid, task);
+                    await addTask(
+                        uid: widget.uid, task: task, context: context);
                     setState(() {
                       tasks.add(task);
                     });

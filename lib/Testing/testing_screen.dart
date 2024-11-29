@@ -101,7 +101,7 @@ class TestingScreenState extends State<TestingScreen> {
                   ),
                 );
 
-                print(response.statusCode);
+                print('TEXT response code: ${response.statusCode}');
                 //100-199 are informational (not used?) and 300-399 are redirection (also not used?)
                 //Values between 200 and 299 are successful
                 //Values between 400 and 499 are client errors
@@ -116,7 +116,7 @@ class TestingScreenState extends State<TestingScreen> {
             TextButton(
               onPressed: () async {
                 //Function needs to await, since it returns a future
-                await updateResponse();
+                await updateResponse(context);
                 print('Raw data: $responseData');
                 //Returns map of KVPs, which are themselves maps of KVPs
                 print('Keys: $keys');
@@ -136,7 +136,7 @@ class TestingScreenState extends State<TestingScreen> {
             ),
             TextButton(
                 onPressed: () async {
-                  await updateResponse();
+                  await updateResponse(context);
                 },
                 child: const Text('Print Data')),
           ],

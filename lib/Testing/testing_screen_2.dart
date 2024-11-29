@@ -24,26 +24,6 @@ class TestingScreen2State extends State<TestingScreen2> {
     super.dispose();
   }
 
-  //Returns a map of tasks and their completion status
-  Future<Map<String, bool>> getTasks(String uid) async {
-    late Map<String, bool> tasks = {};
-    //Reach out to Firebase
-    //Use UID to get the specific user's tasks
-    //Compile list
-    //Return list
-
-    //TODO: This might brick, do testing later
-    for (final item in (await getResponse()).entries) {
-      if (item.key == uid) {
-        item.value['Data'].forEach((key, value) {
-          tasks[key] = value;
-        });
-      }
-    }
-
-    return tasks;
-  }
-
   void addTask(String uid, String task) async {
     //Reach out to Firebase
     //Use UID to get specific user's address of tasks
@@ -202,7 +182,7 @@ class TestingScreen2State extends State<TestingScreen2> {
                 //TODO: Need loading method to fetch data
 
                 //Function needs to await, since it returns a future
-                await updateResponse();
+                await updateResponse(context);
                 print('Raw data: $responseData');
                 //Returns map of KVPs, which are themselves maps of KVPs
                 print('Keys: $keys');
@@ -238,7 +218,7 @@ class TestingScreen2State extends State<TestingScreen2> {
                   ),
                 );
 
-                print(response.statusCode);
+                print('TEXT response code: ${response.statusCode}');
 
                 //End of text button to-execute
               },
@@ -270,7 +250,7 @@ class TestingScreen2State extends State<TestingScreen2> {
             TextButton(
               onPressed: () async {
                 print(
-                  (await getTasks(widget.uid),),
+                  (await getTasks(uid: widget.uid, context: context),),
                 );
               },
               child: const Text('Check data from Firebase'),

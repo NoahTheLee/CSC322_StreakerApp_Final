@@ -1,3 +1,4 @@
+import 'package:csc322_streaker_final/globals.dart';
 import 'package:flutter/material.dart';
 
 class ErrorScreen extends StatelessWidget {
@@ -5,11 +6,13 @@ class ErrorScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    enterErrorState();
+    print('Error state triggered');
     final String errorMessage =
         ModalRoute.of(context)!.settings.arguments as String;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Error'),
+        title: const Text('Error'),
       ),
       body: Center(
         child: Padding(
@@ -40,10 +43,16 @@ class ErrorScreen extends StatelessWidget {
               const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {
+                  exitErrorState();
                   Navigator.of(context).pop();
                 },
                 child: const Text('Go Back'),
               ),
+              ElevatedButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text('avoid state reset')),
             ],
           ),
         ),

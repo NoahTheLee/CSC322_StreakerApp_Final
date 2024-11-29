@@ -2,7 +2,7 @@ import 'package:csc322_streaker_final/Testing/testing_screen.dart';
 import 'package:csc322_streaker_final/Testing/testing_screen_2.dart';
 import 'package:csc322_streaker_final/Testing/testing_screen_3.dart';
 import 'package:csc322_streaker_final/screens/complete_screen.dart';
-import 'package:csc322_streaker_final/screens/error_screen.dart';
+import 'package:csc322_streaker_final/error_screen.dart';
 import 'package:csc322_streaker_final/screens/login pages/login_page.dart';
 import 'package:flutter/material.dart';
 
