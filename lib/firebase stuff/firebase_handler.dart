@@ -29,6 +29,8 @@ Future<void> updateResponse() async {
   //Formatted as http.get(url)
   fullResponse = await http.get(firebaseUrl); //pulls data from Firebase
   //fullResponse should NEVER be used for anything at all ever since it's "junk" data
+  //TODO: Implement response.statusCode checking and handle errors if applicable
+  //Implement either a call to the "error" function, or determine if forced data is applicable
 
   responseData =
       json.decode(fullResponse.body); //Converts data into a KVP of KVPs (bruh)
@@ -43,6 +45,8 @@ Future<void> updateResponse() async {
 
 Future<Map<String, dynamic>> getResponse() async {
   return responseData = json.decode((await http.get(firebaseUrl)).body);
+  //TODO: Implement response.statusCode checking and handle errors if applicable
+  //Implement either a call to the "error" function, or determine if forced data is applicable
 }
 
 //Function to update response
@@ -104,6 +108,8 @@ void resetTasks(String uid) async {
 
   for (final task in await getTaskNames(uid)) {
     await http.patch(
+      //TODO: Implement response.statusCode checking and handle errors if applicable
+      //Implement either a call to the "error" function, or determine if forced data is applicable
       Uri.https('csc322-streaker-final-default-rtdb.firebaseio.com',
           'Users/$uid/Data.json'),
       headers: {
@@ -122,6 +128,8 @@ Future<void> addTask(String uid, String task) async {
   //Return positive?
 
   http.patch(
+    //TODO: Implement response.statusCode checking and handle errors if applicable
+    //Implement either a call to the "error" function, or determine if forced data is applicable
     Uri.https('csc322-streaker-final-default-rtdb.firebaseio.com',
         'Users/$uid/Data.json'),
     headers: {
@@ -139,6 +147,8 @@ void removeTask(String uid, String task) {
   //Return positive?
 
   http.delete(
+    //TODO: Implement response.statusCode checking and handle errors if applicable
+    //Implement either a call to the "error" function, or determine if forced data is applicable
     Uri.https('csc322-streaker-final-default-rtdb.firebaseio.com',
         'Users/$uid/Data/$task.json'), //Copilot saved my butt ty Copilot ily
     headers: {
@@ -156,6 +166,8 @@ void updateTask(String uid, String task) async {
 
   // Fetch the current value of the task
   final response = await http.get(
+    //TODO: Implement response.statusCode checking and handle errors if applicable
+    //Implement either a call to the "error" function, or determine if forced data is applicable
     Uri.https('csc322-streaker-final-default-rtdb.firebaseio.com',
         'Users/$uid/Data/$task.json'),
     headers: {
@@ -170,6 +182,8 @@ void updateTask(String uid, String task) async {
 
   // Update the task with the new value
   await http.patch(
+    //TODO: Implement response.statusCode checking and handle errors if applicable
+    //Implement either a call to the "error" function, or determine if forced data is applicable
     Uri.https('csc322-streaker-final-default-rtdb.firebaseio.com',
         'Users/$uid/Data.json'),
     headers: {
@@ -182,6 +196,8 @@ void updateTask(String uid, String task) async {
 Future<void> incStreak(String uid) async {
   //Pull data from Firebase, targeting the streak counter the given user
   final response = await http.get(
+    //TODO: Implement response.statusCode checking and handle errors if applicable
+    //Implement either a call to the "error" function, or determine if forced data is applicable
     Uri.https('csc322-streaker-final-default-rtdb.firebaseio.com',
         'Users/$uid/Streak.json'),
     headers: {
@@ -194,6 +210,8 @@ Future<void> incStreak(String uid) async {
 
   //Increment the streak counter by one
   await http.patch(
+    //TODO: Implement response.statusCode checking and handle errors if applicable
+    //Implement either a call to the "error" function, or determine if forced data is applicable
     Uri.https(
         'csc322-streaker-final-default-rtdb.firebaseio.com', 'Users/$uid.json'),
     headers: {
@@ -206,6 +224,8 @@ Future<void> incStreak(String uid) async {
 Future<void> resetStreak(String uid) async {
   //Don't care what value is stored, just want to wipe it to 0
   await http.patch(
+    //TODO: Implement response.statusCode checking and handle errors if applicable
+    //Implement either a call to the "error" function, or determine if forced data is applicable
     Uri.https(
         'csc322-streaker-final-default-rtdb.firebaseio.com', 'Users/$uid.json'),
     headers: {
@@ -218,6 +238,8 @@ Future<void> resetStreak(String uid) async {
 Future<int> getStreak(String uid) async {
   //Pull data from Firebase, targeting the streak counter the given user
   final response = await http.get(
+    //TODO: Implement response.statusCode checking and handle errors if applicable
+    //Implement either a call to the "error" function, or determine if forced data is applicable
     Uri.https('csc322-streaker-final-default-rtdb.firebaseio.com',
         'Users/$uid/Streak.json'),
     headers: {
@@ -244,6 +266,8 @@ bool hasExceededHours(DateTime storedDate, int hoursDifference) {
 // Sending the current date to uid
 void sendDate(String uid) async {
   http.patch(
+    //TODO: Implement response.statusCode checking and handle errors if applicable
+    //Implement either a call to the "error" function, or determine if forced data is applicable
     Uri.https(
         'csc322-streaker-final-default-rtdb.firebaseio.com', 'Users/$uid.json'),
     headers: {
@@ -256,6 +280,8 @@ void sendDate(String uid) async {
 // Pull date from uid
 Future<String> getDate(String uid) async {
   final response = await http.get(
+    //TODO: Implement response.statusCode checking and handle errors if applicable
+    //Implement either a call to the "error" function, or determine if forced data is applicable
     Uri.https('csc322-streaker-final-default-rtdb.firebaseio.com',
         'Users/$uid/Streak Last Updated.json'),
     headers: {

@@ -158,6 +158,8 @@ class LoginPageState extends State<LoginPage> {
     }
 
     final response = await http.post(
+      //TODO: Implement response.statusCode checking and handle errors if applicable
+      //Implement either a call to the "error" function, or determine if forced data is applicable
       firebaseUrl,
       headers: {
         'Content-Type': 'application/json',
