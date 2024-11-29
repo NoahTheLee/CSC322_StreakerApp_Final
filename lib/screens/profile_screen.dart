@@ -21,12 +21,26 @@ class ProfileScreenState extends State<ProfileScreen> {
 
   List<String> tasks = [];
 
+  bool tasksEmpty = false;
+
   @override
   void initState() {
     _username = usernames[keys.indexOf(widget.uid)];
     setTaskNames();
 
     super.initState();
+  }
+
+  void checkEmpty() {
+    if (tasks.isEmpty) {
+      setState(() {
+        tasksEmpty = true;
+      });
+    } else {
+      setState(() {
+        tasksEmpty = false;
+      });
+    }
   }
 
   @override
@@ -40,6 +54,7 @@ class ProfileScreenState extends State<ProfileScreen> {
       setState(() {
         tasks = value;
       });
+      checkEmpty();
     });
   }
 
@@ -111,59 +126,79 @@ class ProfileScreenState extends State<ProfileScreen> {
             SizedBox(
               height: MediaQuery.sizeOf(context).height / 2 - 100,
               width: MediaQuery.sizeOf(context).width - 20,
-              child: Column(
-                children: [
-                  Expanded(
-                    child: ListView.builder(
-                      //ListView.builder cannibalized from shopping app
-                      itemCount: tasks.length,
-                      itemBuilder: (context, index) {
-                        return Dismissible(
-                          //Make them dismissible
-                          key: Key(
-                            tasks[index],
+              child: tasksEmpty
+                  ? const Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.inbox,
+                          color: Colors.white,
+                          size: 50,
+                        ),
+                        SizedBox(height: 10),
+                        Text(
+                          'Add tasks to get started!',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
                           ),
-                          onDismissed: (direction) {
-                            //Get rid of the thing
-                            removeTask(widget.uid, tasks[index]);
-                            setState(() {
-                              tasks.removeAt(index);
-                            });
-                          },
-                          background: Container(
-                            //Background for the dismissible
-                            alignment: Alignment.centerRight,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(30),
-                                color:
-                                    const Color.fromARGB(255, 229, 126, 119)),
-                            child: const Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: 30, vertical: 10),
-                              child: Icon(
-                                Icons.delete,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ),
-                          child: ListTile(
-                            title: Center(
-                              child: Text(
-                                //The item itself, just a text widget
-                                tasks[index],
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 20,
+                        ),
+                      ],
+                    )
+                  : Column(
+                      children: [
+                        Expanded(
+                          child: ListView.builder(
+                            //ListView.builder cannibalized from shopping app
+                            itemCount: tasks.length,
+                            itemBuilder: (context, index) {
+                              return Dismissible(
+                                //Make them dismissible
+                                key: Key(
+                                  tasks[index],
                                 ),
-                              ),
-                            ),
+                                onDismissed: (direction) {
+                                  //Get rid of the thing
+                                  removeTask(widget.uid, tasks[index]);
+                                  setState(() {
+                                    tasks.removeAt(index);
+                                  });
+                                  checkEmpty();
+                                },
+                                background: Container(
+                                  //Background for the dismissible
+                                  alignment: Alignment.centerRight,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(30),
+                                      color: const Color.fromARGB(
+                                          255, 229, 126, 119)),
+                                  child: const Padding(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 30, vertical: 10),
+                                    child: Icon(
+                                      Icons.delete,
+                                      color: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                                child: ListTile(
+                                  title: Center(
+                                    child: Text(
+                                      //The item itself, just a text widget
+                                      tasks[index],
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 20,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
                           ),
-                        );
-                      },
+                        ),
+                      ],
                     ),
-                  ),
-                ],
-              ),
             ),
 
             ////////////////////////////////////////////////////////////////////////////////////
@@ -189,7 +224,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                   ),
                 ),
                 IconButton(
-                  onPressed: () {
+                  onPressed: () async {
                     String task = _taskName.text;
                     if (task.isEmpty || task == '') {
                       showDialog(
@@ -233,10 +268,12 @@ class ProfileScreenState extends State<ProfileScreen> {
                       );
                       return;
                     }
-                    addTask(widget.uid, task);
+                    _taskName.clear();
+                    await addTask(widget.uid, task);
                     setState(() {
                       tasks.add(task);
                     });
+                    checkEmpty();
                   },
                   icon: const Icon(
                     Icons.send,

@@ -115,7 +115,7 @@ void resetTasks(String uid) async {
 }
 
 //Adding a task to the user's list
-void addTask(String uid, String task) async {
+Future<void> addTask(String uid, String task) async {
   //Reach out to Firebase
   //Use UID to get specific user's address of tasks
   //Append task to list
