@@ -1,10 +1,12 @@
 import 'dart:convert';
+import 'dart:io';
 
-import 'package:csc322_streaker_final/firebase%20stuff/firebase_handler.dart';
+import 'package:csc322_streaker_final/firebase/firebase_handler.dart';
 import 'package:csc322_streaker_final/screens/login%20pages/sign_in.dart';
 import 'package:csc322_streaker_final/screens/login%20pages/sign_up.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:http/http.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key, required this.doLogin, required this.changeUid});
@@ -36,6 +38,8 @@ class LoginPageState extends State<LoginPage> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _passwordMatchingController =
       TextEditingController();
+
+  //Boolean to handle password visibility, passed through to sign in and sign up
   bool _passwordVisible = true;
 
   //empty variables for email and password
@@ -47,11 +51,8 @@ class LoginPageState extends State<LoginPage> {
   var password = '';
   var username = '';
 
-  //Firebase URL
-  //Formatted as Uri.https('link', 'path.json')
-
   void setValues() {
-    //Update values of email, password, and username
+    //Update values of email, password, password checker, and username
     email = _emailController.text;
     password = _passwordController.text;
     checkPassword = _passwordMatchingController.text;
@@ -65,7 +66,7 @@ class LoginPageState extends State<LoginPage> {
 
     email = "test@domain.net";
     password = "12345";
-    if (await checkLogin(email, password)) {
+    if (await checkLogin(email: email, password: password, context: context)) {
       _changeUid(email);
       widget
           .doLogin(); //Moves to app home page, should only be called if login is successful
@@ -73,10 +74,9 @@ class LoginPageState extends State<LoginPage> {
   }
 
   void signUserIn() async {
-    //Empty placeholder to print values to the debug console.
-    //Later, this should check firebase for login status
     setValues();
 
+    //Do a bunch of checks on input data to make sure it's valid
     if (email.isEmpty) {
       signingDataError('Email is required.');
       return;
@@ -91,12 +91,13 @@ class LoginPageState extends State<LoginPage> {
       return;
     }
 
-    if (await checkLogin(email, password)) {
+    if (await checkLogin(email: email, password: password, context: context)) {
       _changeUid(email);
       widget.doLogin();
     }
   }
 
+  //Simple function to display error message, dependant on error. Used in multiple places
   Future signingDataError(String errMessage) {
     return showDialog(
       context: context,
@@ -118,8 +119,7 @@ class LoginPageState extends State<LoginPage> {
   }
 
   void _createUser() async {
-    await updateResponse();
-    //TODO: Handle backend response if no response is received
+    await updateResponse(context);
     setValues();
 
     if (username.isEmpty) {
@@ -157,31 +157,32 @@ class LoginPageState extends State<LoginPage> {
       return;
     }
 
-    final response = await http.post(
-      firebaseUrl,
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: json.encode(
-        //Content needs key-value pairs ('type': 'value')
-        {
-          'email': email,
-          'password': password,
-          'username': username,
+    try {
+      await http.post(
+        firebaseUrl,
+        headers: {
+          'Content-Type': 'application/json',
         },
-      ),
-    );
-
-    //TODO: Add error handling for response codes
-
-    print(response.statusCode);
-    //100-199 are informational (not used?) and 300-399 are redirection (also not used?)
-    //Values between 200 and 299 are successful
-    //Values between 400 and 499 are client errors
-    //Values between 500 and 599 are server errors
-
-    print(json.decode(response.body)['name']);
-    //Returns "name": "-key" if successful as well
+        body: json.encode(
+          //Content needs key-value pairs ('type': 'value')
+          {
+            'email': email,
+            'password': password,
+            'username': username,
+          },
+        ),
+      );
+    } on SocketException {
+      Navigator.pushNamed(context, '/error',
+          arguments:
+              'No response from server, please try again later ||| Source: Unable to communicate with server and add user to Firebase');
+      return; // Exit early if the request fails
+    } on ClientException {
+      Navigator.pushNamed(context, '/error',
+          arguments:
+              'A client issue was encountered, please restart your application and try again ||| Source: Unable to communicate with server and add user to Firebase');
+      return; // Exit early
+    }
 
     widget.doLogin();
   }

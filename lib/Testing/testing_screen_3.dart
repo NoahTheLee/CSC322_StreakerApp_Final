@@ -2,7 +2,7 @@
 
 import 'dart:convert';
 
-import 'package:csc322_streaker_final/firebase%20stuff/firebase_handler.dart';
+import 'package:csc322_streaker_final/firebase/firebase_handler.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 
@@ -61,7 +61,7 @@ class TestingScreen3State extends State<TestingScreen3> {
                     style: TextStyle(color: Colors.white),
                   ),
                   onTap: () {
-                    incStreak(widget.uid);
+                    incStreak(uid: widget.uid, context: context);
                   },
                 ),
                 ListTile(
@@ -70,7 +70,7 @@ class TestingScreen3State extends State<TestingScreen3> {
                     style: TextStyle(color: Colors.white),
                   ),
                   onTap: () {
-                    resetStreak(widget.uid);
+                    resetStreak(uid: widget.uid, context: context);
                   },
                 ),
               ],
@@ -97,7 +97,7 @@ class TestingScreen3State extends State<TestingScreen3> {
                     style: TextStyle(color: Colors.white),
                   ),
                   onTap: () {
-                    sendDate(widget.uid);
+                    sendDate(uid: widget.uid, context: context);
                   },
                 ),
                 ListTile(
@@ -106,7 +106,8 @@ class TestingScreen3State extends State<TestingScreen3> {
                     style: TextStyle(color: Colors.white),
                   ),
                   onTap: () async {
-                    await getDate(widget.uid).then((value) => print(value));
+                    await getDate(uid: widget.uid, context: context)
+                        .then((value) => print(value));
                   },
                 ),
                 ListTile(
@@ -115,7 +116,7 @@ class TestingScreen3State extends State<TestingScreen3> {
                     style: TextStyle(color: Colors.white),
                   ),
                   onTap: () async {
-                    print(await compareDates(widget.uid)
+                    print(await compareDates(uid: widget.uid, context: context)
                         ? 'Is over 24 hours of difference'
                         : 'Is not over 24 hours of difference');
                   },
@@ -142,7 +143,7 @@ class TestingScreen3State extends State<TestingScreen3> {
                     style: TextStyle(color: Colors.white),
                   ),
                   onTap: () {
-                    resetTasks(widget.uid);
+                    resetTasks(uid: widget.uid, context: context);
                   },
                 ),
               ],

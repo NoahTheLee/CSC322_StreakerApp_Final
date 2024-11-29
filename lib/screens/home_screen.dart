@@ -1,7 +1,8 @@
 import 'dart:async';
 
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:csc322_streaker_final/firebase%20stuff/firebase_handler.dart';
+import 'package:csc322_streaker_final/firebase/firebase_handler.dart';
+import 'package:csc322_streaker_final/globals.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -38,7 +39,7 @@ class HomeScreenState extends State<HomeScreen> {
   }
 
   void setStreakCount() {
-    getStreak(widget.uid).then((value) {
+    getStreak(uid: widget.uid, context: context).then((value) {
       setState(() {
         streakCounter = value;
       });
@@ -47,9 +48,11 @@ class HomeScreenState extends State<HomeScreen> {
 
   void startTimer() {
     Timer.periodic(const Duration(seconds: 2), (Timer timer) {
-      getTaskMap();
-      updateTimer();
-      checkEmpty();
+      if (!errState) {
+        getTaskMap();
+        updateTimer();
+        checkEmpty();
+      }
     });
   }
 
@@ -66,7 +69,7 @@ class HomeScreenState extends State<HomeScreen> {
   }
 
   void updateTimer() async {
-    timeUntil24Hours(widget.uid).then((value) {
+    timeUntil24Hours(uid: widget.uid, context: context).then((value) {
       setState(() {
         timerText = value;
       });
@@ -74,7 +77,7 @@ class HomeScreenState extends State<HomeScreen> {
   }
 
   void getTaskMap() async {
-    await getTasks(widget.uid).then((value) {
+    await getTasks(uid: widget.uid, context: context).then((value) {
       setState(() {
         taskMap = value;
       });
@@ -207,7 +210,9 @@ class HomeScreenState extends State<HomeScreen> {
                           value: taskMap.values.elementAt(index),
                           onChanged: (bool? value) {
                             updateTask(
-                                widget.uid, taskMap.keys.elementAt(index));
+                                uid: widget.uid,
+                                task: taskMap.keys.elementAt(index),
+                                context: context);
                             setState(() {
                               taskMap[taskMap.keys.elementAt(index)] = value!;
                             });
@@ -223,13 +228,13 @@ class HomeScreenState extends State<HomeScreen> {
                   //handle comparisons
 
                   //Check stored date against current date
-                  if (!await compareDates(widget.uid)) {
-                    await incStreak(widget.uid);
+                  if (!await compareDates(uid: widget.uid, context: context)) {
+                    await incStreak(uid: widget.uid, context: context);
                     setState(() {
                       setStreakCount();
                     });
                   } else {
-                    await resetStreak(widget.uid);
+                    await resetStreak(uid: widget.uid, context: context);
                     setState(() {
                       setStreakCount();
                     });
@@ -240,8 +245,8 @@ class HomeScreenState extends State<HomeScreen> {
                     _dailyStreak = true;
                   });
                   //This can be called after the setState, since all it does is update the streak on Firebase
-                  sendDate(widget.uid);
-                  resetTasks(widget.uid);
+                  sendDate(uid: widget.uid, context: context);
+                  resetTasks(uid: widget.uid, context: context);
                 }
               },
               style: ElevatedButton.styleFrom(
@@ -255,6 +260,19 @@ class HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               child: const Text('Complete Tasks'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/error',
+                    arguments: 'Error Message Placeholder');
+              },
+              child: const Text(
+                'Temp Placeholder for Error Screen',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20,
+                ),
+              ),
             ),
           ],
         ),

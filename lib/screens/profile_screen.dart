@@ -1,4 +1,4 @@
-import 'package:csc322_streaker_final/firebase%20stuff/firebase_handler.dart';
+import 'package:csc322_streaker_final/firebase/firebase_handler.dart';
 import 'package:flutter/material.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -50,7 +50,7 @@ class ProfileScreenState extends State<ProfileScreen> {
   }
 
   void setTaskNames() async {
-    await getTaskNames(widget.uid).then((value) {
+    await getTaskNames(uid: widget.uid, context: context).then((value) {
       setState(() {
         tasks = value;
       });
@@ -69,7 +69,7 @@ class ProfileScreenState extends State<ProfileScreen> {
               ///////////////////////////////Banner Picture Location///////////////////////////
               children: [
                 const SizedBox(
-                  height: 300,
+                  height: 255,
                   width: double.infinity,
                 ),
                 Image.asset(
@@ -94,23 +94,18 @@ class ProfileScreenState extends State<ProfileScreen> {
                 ),
                 ////////////////////////////////////////////////////////////////////////////////
                 /////////////////////////////Username Location//////////////////////////////////
-                Positioned(
-                  bottom: 10,
-                  left: MediaQuery.sizeOf(context).width / 2 -
-                      _username.length * 9,
-                  child: Text(
-                    _username, //Temporary Username
-                    style: const TextStyle(
-                      color: Color.fromARGB(255, 221, 218, 255),
-                      fontSize: 30,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                )
                 ////////////////////////////////////////////////////////////////////////////////
               ],
             ),
             //////////////////////////////Items to Track Title//////////////////////////////////
+            Text(
+              _username, //Temporary Username
+              style: const TextStyle(
+                color: Color.fromARGB(255, 221, 218, 255),
+                fontSize: 30,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
             const SizedBox(height: 20),
             const Text(
               'Your Items to Track',
@@ -159,7 +154,10 @@ class ProfileScreenState extends State<ProfileScreen> {
                                 ),
                                 onDismissed: (direction) {
                                   //Get rid of the thing
-                                  removeTask(widget.uid, tasks[index]);
+                                  removeTask(
+                                      uid: widget.uid,
+                                      task: tasks[index],
+                                      context: context);
                                   setState(() {
                                     tasks.removeAt(index);
                                   });
@@ -200,10 +198,11 @@ class ProfileScreenState extends State<ProfileScreen> {
                       ],
                     ),
             ),
-
             ////////////////////////////////////////////////////////////////////////////////////
             //////////////////////////////Add New Item//////////////////////////////////////////
-            const SizedBox(height: 10),
+            Expanded(
+              child: Container(),
+            ),
             Row(
               children: [
                 Expanded(
@@ -269,7 +268,8 @@ class ProfileScreenState extends State<ProfileScreen> {
                       return;
                     }
                     _taskName.clear();
-                    await addTask(widget.uid, task);
+                    await addTask(
+                        uid: widget.uid, task: task, context: context);
                     setState(() {
                       tasks.add(task);
                     });

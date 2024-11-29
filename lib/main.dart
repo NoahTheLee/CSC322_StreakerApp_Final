@@ -2,6 +2,7 @@ import 'package:csc322_streaker_final/Testing/testing_screen.dart';
 import 'package:csc322_streaker_final/Testing/testing_screen_2.dart';
 import 'package:csc322_streaker_final/Testing/testing_screen_3.dart';
 import 'package:csc322_streaker_final/screens/complete_screen.dart';
+import 'package:csc322_streaker_final/error_screen.dart';
 import 'package:csc322_streaker_final/screens/login pages/login_page.dart';
 import 'package:flutter/material.dart';
 
@@ -22,6 +23,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/complete': (context) => const CompleteScreen(),
         // '/home': (context) => const HomeScreen(),
+        '/error': (context) => const ErrorScreen(),
       },
       title: 'Flutter Demo',
       theme: ThemeData(
@@ -46,11 +48,19 @@ class _MyHomeState extends State<MyHome> {
   int testState = 0; //TODO: Remove this when testing is complete
   // 1 = TestingScreen 2 = TestingScreen2 3 = TestingScreen3
 
+  bool hasErrored = false;
+
   var uid = '';
 
   doLogin() async {
     setState(() {
       isLoggedIn = true;
+    });
+  }
+
+  void errorOccured() {
+    setState(() {
+      hasErrored = true;
     });
   }
 
