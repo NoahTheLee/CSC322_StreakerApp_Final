@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:csc322_streaker_final/firebase%20stuff/firebase_handler.dart';
+import 'package:csc322_streaker_final/firebase/firebase_handler.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -255,6 +255,19 @@ class HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               child: const Text('Complete Tasks'),
+            ),
+            TextButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/error',
+                    arguments: 'Error Message Placeholder');
+              },
+              child: const Text(
+                'Temp Placeholder for Error Screen',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20,
+                ),
+              ),
             ),
           ],
         ),

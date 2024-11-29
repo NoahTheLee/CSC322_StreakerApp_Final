@@ -1,7 +1,7 @@
 // ignore_for_file: avoid_print
 import 'dart:convert';
 
-import 'package:csc322_streaker_final/firebase%20stuff/firebase_handler.dart';
+import 'package:csc322_streaker_final/firebase/firebase_handler.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 

@@ -1,4 +1,4 @@
-import 'package:csc322_streaker_final/firebase%20stuff/firebase_handler.dart';
+import 'package:csc322_streaker_final/firebase/firebase_handler.dart';
 import 'package:flutter/material.dart';
 
 class ProfileScreen extends StatefulWidget {
