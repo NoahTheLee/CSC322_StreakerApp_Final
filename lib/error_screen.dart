@@ -7,7 +7,6 @@ class ErrorScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     enterErrorState();
-    print('Error state triggered');
     final String errorMessage =
         ModalRoute.of(context)!.settings.arguments as String;
     return Scaffold(
