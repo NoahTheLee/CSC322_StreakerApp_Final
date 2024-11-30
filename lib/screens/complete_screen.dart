@@ -72,20 +72,26 @@ class CompleteScreenState extends State<CompleteScreen> {
                       )
                     else
                       const Text('Error loading image'),
-                    Positioned(
-                      bottom: 10,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.blue,
-                          textStyle: const TextStyle(
-                            fontSize: 20,
-                          ),
+                    // const SizedBox(height: 10),
+                    // const Text(
+                    //   'You have completed today\'s task! Enjoy this image!',
+                    //   style: TextStyle(
+                    //     fontSize: 20,
+                    //     fontWeight: FontWeight.bold,
+                    //   ),
+                    // ),
+                    // const SizedBox(height: 0),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.blue,
+                        textStyle: const TextStyle(
+                          fontSize: 20,
                         ),
-                        child: const Text('Continue'),
                       ),
+                      child: const Text('Continue'),
                     ),
                   ],
                 ),

@@ -91,6 +91,8 @@ flutter_launcher_icons:
   android: true
   ios: true
   adaptive_icon_background: "#FF0000"
+  adaptive_icon_foreground: "assets/Icon/Streaker_app_icon.png"
+  
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
