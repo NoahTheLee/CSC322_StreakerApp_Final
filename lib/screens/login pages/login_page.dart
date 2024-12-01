@@ -167,7 +167,8 @@ class LoginPageState extends State<LoginPage> {
           //Content needs key-value pairs ('type': 'value')
           {
             'Streak': 0,
-            'Streak Last Updated': DateTime.now().toString(),
+            'Streak Last Updated':
+                DateTime.now().subtract(const Duration(hours: 24)).toString(),
             'email': email,
             'password': password,
             'username': username,
