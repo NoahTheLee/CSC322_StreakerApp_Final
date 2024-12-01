@@ -185,8 +185,23 @@ class LoginPageState extends State<LoginPage> {
               'A client issue was encountered, please restart your application and try again ||| Source: Unable to communicate with server and add user to Firebase');
       return; // Exit early
     }
-
-    widget.doLogin();
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Account created!'),
+          content: const Text('Try logging in with your new account.'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   void _switchSigning() {
@@ -231,15 +246,15 @@ class LoginPageState extends State<LoginPage> {
                 _passwordVisible,
               )
             : signUp(
-                menuStyle,
-                _usernameController,
-                _emailController,
-                _passwordController,
-                _passwordMatchingController,
-                _createUser,
-                _switchSigning,
-                togglePasswordVisibility,
-                _passwordVisible,
+                menuStyle: menuStyle,
+                usernameController: _usernameController,
+                emailController: _emailController,
+                passwordController: _passwordController,
+                passwordMatchingController: _passwordMatchingController,
+                switchToSignIn: _switchSigning,
+                togglePasswordVisibility: togglePasswordVisibility,
+                passwordVisible: _passwordVisible,
+                createUser: _createUser,
               ),
       ),
     );
