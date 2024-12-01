@@ -224,53 +224,57 @@ class LoginPageState extends State<LoginPage> {
             end: Alignment.bottomCenter,
           ),
         ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SafeArea(child: Container()),
-            Stack(
-              children: [
-                Image.asset(
-                  'assets/titles/Logo.png',
-                  height: 300,
-                  width: 300,
-                ),
-                Positioned(
-                  bottom: 10,
-                  right: 0,
-                  child: Image.asset('assets/titles/Title.png'),
-                ),
-              ],
-            ),
-            SizedBox(
-              width: double.infinity,
-              height: 464,
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: _signUp
-                    ? signIn(
-                        menuStyle: menuStyle,
-                        emailController: _emailController,
-                        passwordController: _passwordController,
-                        checkLogin: signUserIn,
-                        switchToSignUp: _switchSigning,
-                        togglePasswordVisibility: togglePasswordVisibility,
-                        passwordVisible: _passwordVisible,
-                      )
-                    : signUp(
-                        menuStyle: menuStyle,
-                        usernameController: _usernameController,
-                        emailController: _emailController,
-                        passwordController: _passwordController,
-                        passwordMatchingController: _passwordMatchingController,
-                        switchToSignIn: _switchSigning,
-                        togglePasswordVisibility: togglePasswordVisibility,
-                        passwordVisible: _passwordVisible,
-                        createUser: _createUser,
-                      ),
+        child: SingleChildScrollView(
+          reverse: true,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SafeArea(child: Container()),
+              Stack(
+                children: [
+                  Image.asset(
+                    'assets/titles/Logo.png',
+                    height: 300,
+                    width: 300,
+                  ),
+                  Positioned(
+                    bottom: 10,
+                    right: 0,
+                    child: Image.asset('assets/titles/Title.png'),
+                  ),
+                ],
               ),
-            ),
-          ],
+              SizedBox(
+                width: double.infinity,
+                height: 464,
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: _signUp
+                      ? signIn(
+                          menuStyle: menuStyle,
+                          emailController: _emailController,
+                          passwordController: _passwordController,
+                          checkLogin: signUserIn,
+                          switchToSignUp: _switchSigning,
+                          togglePasswordVisibility: togglePasswordVisibility,
+                          passwordVisible: _passwordVisible,
+                        )
+                      : signUp(
+                          menuStyle: menuStyle,
+                          usernameController: _usernameController,
+                          emailController: _emailController,
+                          passwordController: _passwordController,
+                          passwordMatchingController:
+                              _passwordMatchingController,
+                          switchToSignIn: _switchSigning,
+                          togglePasswordVisibility: togglePasswordVisibility,
+                          passwordVisible: _passwordVisible,
+                          createUser: _createUser,
+                        ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
