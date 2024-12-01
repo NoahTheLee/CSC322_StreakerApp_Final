@@ -7,13 +7,16 @@ class ErrorScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     enterErrorState();
-    print('Error state triggered');
     final String errorMessage =
         ModalRoute.of(context)!.settings.arguments as String;
+
+// Split the string
+    List<String> parts = errorMessage.split('||| Source:');
+// Trim whitespace from each part
+    String reason = parts[0].trim();
+    String source = parts.length > 1 ? parts[1].trim() : '';
+
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Error'),
-      ),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -28,14 +31,27 @@ class ErrorScreen extends StatelessWidget {
               const SizedBox(height: 20),
               const Text(
                 'Oops! Something went wrong.',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white),
                 textAlign: TextAlign.center,
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 50),
               Text(
-                errorMessage,
+                reason,
                 style: const TextStyle(
                   color: Colors.white,
+                  fontSize: 20,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const SizedBox(height: 5),
+              Text(
+                source,
+                style: const TextStyle(
+                  color: Color.fromARGB(255, 128, 128, 128),
+                  fontStyle: FontStyle.italic,
                   fontSize: 20,
                 ),
                 textAlign: TextAlign.center,

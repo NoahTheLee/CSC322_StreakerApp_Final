@@ -261,19 +261,6 @@ class HomeScreenState extends State<HomeScreen> {
               ),
               child: const Text('Complete Tasks'),
             ),
-            TextButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '/error',
-                    arguments: 'Error Message Placeholder');
-              },
-              child: const Text(
-                'Temp Placeholder for Error Screen',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20,
-                ),
-              ),
-            ),
           ],
         ),
       ),

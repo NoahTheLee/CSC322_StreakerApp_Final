@@ -59,20 +59,6 @@ class LoginPageState extends State<LoginPage> {
     username = _usernameController.text;
   }
 
-  void forceLogin() async {
-    //TODO: Remove this function when testing is complete
-
-    setValues();
-
-    email = "test@domain.net";
-    password = "12345";
-    if (await checkLogin(email: email, password: password, context: context)) {
-      _changeUid(email);
-      widget
-          .doLogin(); //Moves to app home page, should only be called if login is successful
-    }
-  }
-
   void signUserIn() async {
     setValues();
 
@@ -263,14 +249,13 @@ class LoginPageState extends State<LoginPage> {
                 padding: const EdgeInsets.all(16.0),
                 child: _signUp
                     ? signIn(
-                        menuStyle,
-                        _emailController,
-                        _passwordController,
-                        signUserIn,
-                        _switchSigning,
-                        forceLogin,
-                        togglePasswordVisibility,
-                        _passwordVisible,
+                        menuStyle: menuStyle,
+                        emailController: _emailController,
+                        passwordController: _passwordController,
+                        checkLogin: signUserIn,
+                        switchToSignUp: _switchSigning,
+                        togglePasswordVisibility: togglePasswordVisibility,
+                        passwordVisible: _passwordVisible,
                       )
                     : signUp(
                         menuStyle: menuStyle,
