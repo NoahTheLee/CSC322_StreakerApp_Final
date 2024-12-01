@@ -61,40 +61,65 @@ class CompleteScreenState extends State<CompleteScreen> {
     return Scaffold(
       body: Center(
         child: _isLoading
-            ? const CircularProgressIndicator()
-            : SingleChildScrollView(
-                child: Column(
+            ? Container(
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [Color.fromARGB(255, 0, 0, 65), Colors.black],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                  ),
+                ),
+                child: const Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    if (_imagePath != null)
-                      Image.file(
-                        File(_imagePath!),
-                        fit: BoxFit.cover,
-                      )
-                    else
-                      const Text('Error loading image'),
-                    // const SizedBox(height: 10),
-                    // const Text(
-                    //   'You have completed today\'s task! Enjoy this image!',
-                    //   style: TextStyle(
-                    //     fontSize: 20,
-                    //     fontWeight: FontWeight.bold,
-                    //   ),
-                    // ),
-                    // const SizedBox(height: 0),
-                    ElevatedButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.blue,
-                        textStyle: const TextStyle(
-                          fontSize: 20,
-                        ),
+                    Text(
+                      'Generating your Streak reward image...',
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.purple,
                       ),
-                      child: const Text('Continue'),
                     ),
+                    CircularProgressIndicator(),
                   ],
                 ),
+              )
+            : Column(
+                children: [
+                  if (_imagePath != null)
+                    Image.file(
+                      File(_imagePath!),
+                      // fit: BoxFit.cover,
+                    )
+                  else
+                    const Text('Error loading image'),
+                  // const SizedBox(height: 10),
+                  // const Text(
+                  //   'You have completed today\'s task! Enjoy this image!',
+                  //   style: TextStyle(
+                  //     fontSize: 20,
+                  //     fontWeight: FontWeight.bold,
+                  //   ),
+                  // ),
+                  // const SizedBox(height: 0),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.blue,
+                      textStyle: const TextStyle(
+                        fontSize: 20,
+                      ),
+                    ),
+                    child: const Text(
+                      'Close Image',
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ],
               ),
       ),
     );
