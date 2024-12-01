@@ -1,15 +1,13 @@
-import 'package:csc322_streaker_final/Testing/debug_file.dart';
 import 'package:flutter/material.dart';
 
 Widget signIn(
-    Color menuStyle,
-    TextEditingController emailController,
-    TextEditingController passwordController,
-    void Function() checkLogin,
-    void Function() switchToSignUp,
-    void Function() forceLogin,
-    void Function() togglePasswordVisibility,
-    bool passwordVisible) {
+    {required Color menuStyle,
+    required TextEditingController emailController,
+    required TextEditingController passwordController,
+    required void Function() checkLogin,
+    required void Function() switchToSignUp,
+    required void Function() togglePasswordVisibility,
+    required bool passwordVisible}) {
   return Column(
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
@@ -59,7 +57,6 @@ Widget signIn(
         onPressed: switchToSignUp,
         child: const Text('Don\'t have an account? Create one!'),
       ),
-      debugLogin(forceLogin),
     ],
   );
 }

@@ -7,7 +7,6 @@ class ErrorScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     enterErrorState();
-    print('Error state triggered');
     final String errorMessage =
         ModalRoute.of(context)!.settings.arguments as String;
 
@@ -16,10 +15,6 @@ class ErrorScreen extends StatelessWidget {
 // Trim whitespace from each part
     String reason = parts[0].trim();
     String source = parts.length > 1 ? parts[1].trim() : '';
-
-// Use the parsed values
-    print('Reason was: $reason');
-    print('Source is: $source');
 
     return Scaffold(
       body: Center(

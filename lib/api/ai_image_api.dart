@@ -16,10 +16,8 @@ Future<String?> downloadImage(String imageUrl) async {
     await file.writeAsBytes(response.bodyBytes);
 
     // Logging completion message
-    print('Download Completed: $filePath');
     return filePath;
   } else {
-    print('Failed to download image');
     return null;
   }
 }
