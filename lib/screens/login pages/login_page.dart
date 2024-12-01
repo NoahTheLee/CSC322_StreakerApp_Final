@@ -166,6 +166,8 @@ class LoginPageState extends State<LoginPage> {
         body: json.encode(
           //Content needs key-value pairs ('type': 'value')
           {
+            'Streak': 0,
+            'Streak Last Updated': DateTime.now().toString(),
             'email': email,
             'password': password,
             'username': username,
