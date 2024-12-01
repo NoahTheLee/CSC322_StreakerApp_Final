@@ -316,7 +316,7 @@ Future<void> resetStreak(
       headers: {
         'Content-Type': 'application/json',
       },
-      body: json.encode({'Streak': 0}),
+      body: json.encode({'Streak': 1}),
     );
   } on SocketException {
     Navigator.pushNamed(context, '/error',

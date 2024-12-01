@@ -166,6 +166,9 @@ class LoginPageState extends State<LoginPage> {
         body: json.encode(
           //Content needs key-value pairs ('type': 'value')
           {
+            'Streak': 0,
+            'Streak Last Updated':
+                DateTime.now().subtract(const Duration(hours: 24)).toString(),
             'email': email,
             'password': password,
             'username': username,
@@ -183,8 +186,23 @@ class LoginPageState extends State<LoginPage> {
               'A client issue was encountered, please restart your application and try again ||| Source: Unable to communicate with server and add user to Firebase');
       return; // Exit early
     }
-
-    widget.doLogin();
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Account created!'),
+          content: const Text('Try logging in with your new account.'),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: const Text('OK'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   void _switchSigning() {
@@ -212,33 +230,63 @@ class LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Login Page'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: _signUp
-            ? signIn(
-                menuStyle,
-                _emailController,
-                _passwordController,
-                signUserIn,
-                _switchSigning,
-                forceLogin,
-                togglePasswordVisibility,
-                _passwordVisible,
-              )
-            : signUp(
-                menuStyle,
-                _usernameController,
-                _emailController,
-                _passwordController,
-                _passwordMatchingController,
-                _createUser,
-                _switchSigning,
-                togglePasswordVisibility,
-                _passwordVisible,
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Color.fromARGB(255, 0, 0, 65), Colors.black],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SafeArea(child: Container()),
+            Stack(
+              children: [
+                Image.asset(
+                  'assets/titles/Logo.png',
+                  height: 300,
+                  width: 300,
+                ),
+                Positioned(
+                  bottom: 10,
+                  right: 0,
+                  child: Image.asset('assets/titles/Title.png'),
+                ),
+              ],
+            ),
+            SizedBox(
+              width: double.infinity,
+              height: 464,
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: _signUp
+                    ? signIn(
+                        menuStyle,
+                        _emailController,
+                        _passwordController,
+                        signUserIn,
+                        _switchSigning,
+                        forceLogin,
+                        togglePasswordVisibility,
+                        _passwordVisible,
+                      )
+                    : signUp(
+                        menuStyle: menuStyle,
+                        usernameController: _usernameController,
+                        emailController: _emailController,
+                        passwordController: _passwordController,
+                        passwordMatchingController: _passwordMatchingController,
+                        switchToSignIn: _switchSigning,
+                        togglePasswordVisibility: togglePasswordVisibility,
+                        passwordVisible: _passwordVisible,
+                        createUser: _createUser,
+                      ),
               ),
+            ),
+          ],
+        ),
       ),
     );
   }

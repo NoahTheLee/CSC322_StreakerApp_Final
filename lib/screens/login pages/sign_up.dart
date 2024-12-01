@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 
-Widget signUp(
-  Color menuStyle,
-  TextEditingController usernameController,
-  TextEditingController emailController,
-  TextEditingController passwordController,
-  TextEditingController passwordMatchingController,
-  void Function() checkLogin,
-  void Function() switchToSignIn,
-  void Function() togglePasswordVisibility,
-  bool passwordVisible,
-) {
+Widget signUp({
+  required Color menuStyle,
+  required TextEditingController usernameController,
+  required TextEditingController emailController,
+  required TextEditingController passwordController,
+  required TextEditingController passwordMatchingController,
+  required void Function() switchToSignIn,
+  required void Function() togglePasswordVisibility,
+  required void Function() createUser,
+  required bool passwordVisible,
+}) {
   return Column(
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
@@ -84,7 +84,10 @@ Widget signUp(
       ),
       const SizedBox(height: 16.0),
       ElevatedButton(
-        onPressed: checkLogin,
+        onPressed: () {
+          createUser();
+          switchToSignIn();
+        },
         child: const Text('Sign Up'),
       ),
       TextButton(
