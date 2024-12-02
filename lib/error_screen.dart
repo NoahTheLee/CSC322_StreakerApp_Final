@@ -64,11 +64,6 @@ class ErrorScreen extends StatelessWidget {
                 },
                 child: const Text('Go Back'),
               ),
-              ElevatedButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: const Text('avoid state reset')),
             ],
           ),
         ),
